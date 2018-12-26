@@ -1,0 +1,3 @@
+[submodule "Assets/TKLibs"]
+	path = Assets/TKLibs
+	url = https://github.com/AVAVT/TKLibs.git
