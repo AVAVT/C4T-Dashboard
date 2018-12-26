@@ -76,7 +76,43 @@
      <Compile Include="Assets\Libs\ConsolePro\Remote\LiteNetLib\ReliableChannel.cs" />
      <Compile Include="Assets\Libs\ConsolePro\Remote\LiteNetLib\SequencedChannel.cs" />
      <Compile Include="Assets\Libs\ConsolePro\Remote\LiteNetLib\SimpleChannel.cs" />
+     <Compile Include="Assets\TKLibs\Approximation.cs" />
+     <Compile Include="Assets\TKLibs\ComponentAttribute.cs" />
+     <Compile Include="Assets\TKLibs\Cursor\CursorController.cs" />
+     <Compile Include="Assets\TKLibs\Cursor\CursorInteractor.cs" />
+     <Compile Include="Assets\TKLibs\CurvableValue\CurvableValue.cs" />
+     <Compile Include="Assets\TKLibs\DraggableSlider.cs" />
+     <Compile Include="Assets\TKLibs\EnableAlphaHitThreshold.cs" />
+     <Compile Include="Assets\TKLibs\ExtensionMethods\BoundsExtensionMethods.cs" />
+     <Compile Include="Assets\TKLibs\ExtensionMethods\ColorExtensionMethods.cs" />
+     <Compile Include="Assets\TKLibs\ExtensionMethods\HashSetExtensionMethods.cs" />
+     <Compile Include="Assets\TKLibs\ExtensionMethods\ListExtensionMethods.cs" />
+     <Compile Include="Assets\TKLibs\ExtensionMethods\RectExtensionMethods.cs" />
+     <Compile Include="Assets\TKLibs\ExtensionMethods\ShuffleListExtensions.cs" />
+     <Compile Include="Assets\TKLibs\ExtensionMethods\StringExtensionMethods.cs" />
+     <Compile Include="Assets\TKLibs\ExtensionMethods\TransformExtensionMethods.cs" />
+     <Compile Include="Assets\TKLibs\ExtensionMethods\UnityNumericalExtensionMethods.cs" />
+     <Compile Include="Assets\TKLibs\ExtensionMethods\VectorExtensionMethods.cs" />
+     <Compile Include="Assets\TKLibs\FPSCounter.cs" />
+     <Compile Include="Assets\TKLibs\Mathfx.cs" />
+     <Compile Include="Assets\TKLibs\Pixel2DResizer\PixelCanvasController.cs" />
+     <Compile Include="Assets\TKLibs\SceneTransition\CameraMasker.cs" />
+     <Compile Include="Assets\TKLibs\SoundManager\AudioSourceElement.cs" />
+     <Compile Include="Assets\TKLibs\SoundManager\GeneralDefine.cs" />
+     <Compile Include="Assets\TKLibs\SoundManager\SoundManager.cs" />
+     <Compile Include="Assets\TKLibs\SoundManager\SoundSetting.cs" />
+     <Compile Include="Assets\TKLibs\TKCameraResizer.cs" />
+     <Compile Include="Assets\TKLibs\TKSceneManager.cs" />
+     <Compile Include="Assets\TKLibs\TKUtils.cs" />
+     <Compile Include="Assets\TKLibs\UnityEditorExt\ConditionalHideAttribute.cs" />
+     <Compile Include="Assets\TKLibs\UnityEditorExt\SelectableSortingLayerAttribute.cs" />
+     <Compile Include="Assets\TKLibs\UnityEditorExt\SelectableStringAttribute.cs" />
+     <Compile Include="Assets\TKLibs\WeightedList\WeightedItem.cs" />
+     <Compile Include="Assets\TKLibs\WeightedList\WeightedList.cs" />
+     <None Include="Assets\TKLibs\Shaders\MaskShader.shader" />
      <None Include="Assets\Libs\JsonDotNet\link.xml" />
+     <None Include="Assets\TKLibs\SceneTransition\BattleTransitions.shader" />
+     <None Include="Assets\TKLibs\Shaders\MaskCut.shader" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>E:/Unity Projects/C4T-Dashboard/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
@@ -293,6 +329,27 @@
  <Reference Include="UnityEngine.SpatialTracking">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
  </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>E:/Unity Projects/C4T-Dashboard/Assets/Libs/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
+ </Reference>
+ <Reference Include="Sirenix.OdinInspector.Attributes">
+ <HintPath>E:/Unity Projects/C4T-Dashboard/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.dll</HintPath>
+ </Reference>
+ <Reference Include="Sirenix.OdinInspector.Editor">
+ <HintPath>E:/Unity Projects/C4T-Dashboard/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Sirenix.Serialization.Config">
+ <HintPath>E:/Unity Projects/C4T-Dashboard/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.Config.dll</HintPath>
+ </Reference>
+ <Reference Include="Sirenix.Serialization">
+ <HintPath>E:/Unity Projects/C4T-Dashboard/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.dll</HintPath>
+ </Reference>
+ <Reference Include="Sirenix.Utilities">
+ <HintPath>E:/Unity Projects/C4T-Dashboard/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.dll</HintPath>
+ </Reference>
+ <Reference Include="Sirenix.Utilities.Editor">
+ <HintPath>E:/Unity Projects/C4T-Dashboard/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>E:/Unity Projects/C4T-Dashboard/Library/PackageCache/com.unity.ads@2.3.1/Runtime/UnityEngine.Advertisements.dll</HintPath>
  </Reference>
@@ -307,27 +364,6 @@
  </Reference>
  <Reference Include="Unity.Analytics.Tracker">
  <HintPath>E:/Unity Projects/C4T-Dashboard/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
- </Reference>
- <Reference Include="Sirenix.Serialization">
- <HintPath>E:/Unity Projects/C4T-Dashboard/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.dll</HintPath>
- </Reference>
- <Reference Include="Sirenix.Utilities">
- <HintPath>E:/Unity Projects/C4T-Dashboard/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.dll</HintPath>
- </Reference>
- <Reference Include="Sirenix.Utilities.Editor">
- <HintPath>E:/Unity Projects/C4T-Dashboard/Assets/Plugins/Sirenix/Assemblies/Sirenix.Utilities.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Sirenix.OdinInspector.Editor">
- <HintPath>E:/Unity Projects/C4T-Dashboard/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Sirenix.OdinInspector.Attributes">
- <HintPath>E:/Unity Projects/C4T-Dashboard/Assets/Plugins/Sirenix/Assemblies/Sirenix.OdinInspector.Attributes.dll</HintPath>
- </Reference>
- <Reference Include="Sirenix.Serialization.Config">
- <HintPath>E:/Unity Projects/C4T-Dashboard/Assets/Plugins/Sirenix/Assemblies/Sirenix.Serialization.Config.dll</HintPath>
- </Reference>
- <Reference Include="Newtonsoft.Json">
- <HintPath>E:/Unity Projects/C4T-Dashboard/Assets/Libs/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
