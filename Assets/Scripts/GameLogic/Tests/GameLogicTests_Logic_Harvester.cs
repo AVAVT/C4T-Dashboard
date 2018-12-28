@@ -188,6 +188,38 @@ namespace GameLogicTests
     }
 
     [Test]
+    public void Harvester_Cant_Harvest_When_Full()
+    {
+      var customMapInfo = CreateTestMapInfo();
+      customMapInfo.startingPositions.SetItem(Team.Red, Role.Planter, new Vector2(2, 0));
+      customMapInfo.startingPositions.SetItem(Team.Red, Role.Harvester, new Vector2(2, 0));
+      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, customMapInfo);
+
+      List<TurnAction> actions = new List<TurnAction>()
+      {
+        new TurnAction(Team.Red, Role.Planter, Directions.STAY),
+        new TurnAction(Team.Red, Role.Harvester, Directions.STAY),
+        new TurnAction(Team.Red, Role.Worm, Directions.STAY),
+        new TurnAction(Team.Blue, Role.Planter, Directions.STAY),
+        new TurnAction(Team.Blue, Role.Harvester, Directions.STAY),
+        new TurnAction(Team.Blue, Role.Worm, Directions.STAY)
+      };
+
+      for (int i = 0; i < gameConfig.plantFruitTime * (gameConfig.harvesterMaxCapacity + 1); i++)
+      {
+        gameLogic.ExecuteTurn(actions);
+      }
+      gameLogic.ExecuteTurn(actions);
+
+      var gameState = gameLogic.GetGameStateSnapShot();
+      var harvester = gameState.characters.GetItem(Team.Red, Role.Harvester);
+      var tile = gameState.map[harvester.x][harvester.y];
+
+      Assert.AreEqual(gameConfig.harvesterMaxCapacity, harvester.fruitCarrying);
+      Assert.AreEqual(gameConfig.plantFruitTime, tile.growState);
+    }
+
+    [Test]
     public void Harvester_Reset_GrowState_When_Harvested()
     {
       var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
