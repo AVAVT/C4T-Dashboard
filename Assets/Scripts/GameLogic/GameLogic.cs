@@ -53,12 +53,12 @@ public class GameLogic
     AssignCharacterToControllers(serverGameState, characterControllers);
   }
 
-  public async Task PlayGame(CancellationToken cancellationToken, IReplayRecorder recorder = null)
+  public async Task PlayGame(IReplayRecorder recorder = null)
   {
     await DoStart(recorder);
     serverGameState.turn++;
 
-    while (serverGameState.turn < gameRule.gameLength && !cancellationToken.IsCancellationRequested)
+    while (serverGameState.turn < gameRule.gameLength)
     {
       await PlayNextTurn(recorder);
     }
@@ -103,24 +103,7 @@ public class GameLogic
 
     ExecuteTurn(actions);
     recorder?.LogTurn(serverGameState, actions);
-    ResetCancelAction(serverGameState, gameRule);
     serverGameState.turn++;
-  }
-
-  private void ResetCancelAction(ServerGameState serverGameState, GameConfig gameRule)
-  {
-    foreach (var team in gameRule.availableTeams)
-    {
-      foreach (var role in gameRule.availableRoles)
-      {
-        if (serverGameState.characters.GetItem(team, role).cancelAction)
-        {
-          var currentCharacter = serverGameState.characters.GetItem(team, role);
-          currentCharacter.cancelAction = false;
-          serverGameState.characters.SetItem(team, role, currentCharacter);
-        }
-      }
-    }
   }
 
   /// <summary>Progress the game state with given actions</summary>
@@ -170,32 +153,14 @@ public class GameLogic
   void CancelMovementForCounterRolesSwapingPlaces(TeamRoleMap<Character> targetPoses, List<TurnAction> actions)
   {
     if (AreSwapingPlaces(targetPoses, Team.Red, Role.Worm, Team.Blue, Role.Planter))
-    {
       targetPoses.ReplaceWithItemFrom(serverGameState.characters, Team.Red, Role.Worm);
-      targetPoses.SetItem(Team.Red, Role.Worm, CancelCharacterAction(targetPoses.GetItem(Team.Red, Role.Worm)));
-    }
     else if (AreSwapingPlaces(targetPoses, Team.Red, Role.Worm, Team.Blue, Role.Harvester))
-    {
       targetPoses.ReplaceWithItemFrom(serverGameState.characters, Team.Blue, Role.Harvester);
-      targetPoses.SetItem(Team.Blue, Role.Harvester, CancelCharacterAction(targetPoses.GetItem(Team.Blue, Role.Harvester)));
-    }
 
     if (AreSwapingPlaces(targetPoses, Team.Blue, Role.Worm, Team.Red, Role.Planter))
-    {
       targetPoses.ReplaceWithItemFrom(serverGameState.characters, Team.Blue, Role.Worm);
-      targetPoses.SetItem(Team.Blue, Role.Worm, CancelCharacterAction(targetPoses.GetItem(Team.Blue, Role.Worm)));
-    }
     else if (AreSwapingPlaces(targetPoses, Team.Blue, Role.Worm, Team.Red, Role.Harvester))
-    {
       targetPoses.ReplaceWithItemFrom(serverGameState.characters, Team.Red, Role.Harvester);
-      targetPoses.SetItem(Team.Red, Role.Harvester, CancelCharacterAction(targetPoses.GetItem(Team.Red, Role.Harvester)));
-    }
-  }
-
-  Character CancelCharacterAction(Character character)
-  {
-    character.cancelAction = true;
-    return character;
   }
 
   bool AreSwapingPlaces(TeamRoleMap<Character> targetPoses, Team char1Team, Role char1Role, Team char2Team, Role char2Role)

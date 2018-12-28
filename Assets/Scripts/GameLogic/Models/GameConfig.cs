@@ -17,7 +17,7 @@ public class GameConfig
   {
     return new GameConfig(
       sightDistance: 2,
-      gameLength: 100,
+      gameLength: 500,
       plantFruitTime: 5,
       wildberryFruitTime: 10,
       fruitHarvestValue: 1,

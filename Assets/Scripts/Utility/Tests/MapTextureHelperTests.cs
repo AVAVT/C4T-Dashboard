@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.TestTools;
 
 namespace MapTextureHelperTests
@@ -120,9 +121,9 @@ namespace MapTextureHelperTests
 
     IEnumerator LoadTextMapTexture(Action<Texture2D> callback)
     {
-      var www = new WWW("file://" + System.IO.Path.Combine(Application.streamingAssetsPath, "MapTextures/11x9.png"));
-      yield return www;
-      callback(www.texture);
+      var www = UnityWebRequestTexture.GetTexture("file://" + System.IO.Path.Combine(Application.streamingAssetsPath, "MapTextures/11x9.png"));
+      yield return www.SendWebRequest();
+      callback(((DownloadHandlerTexture)www.downloadHandler).texture);
     }
   }
 }

@@ -11,7 +11,7 @@ namespace GameLogicTests
     GameConfig gameConfig;
     MapInfo mapInfo;
 
-    [SetUp]
+    [OneTimeSetUp]
     public void Setup()
     {
       gameConfig = GameConfig.DefaultGameRule();

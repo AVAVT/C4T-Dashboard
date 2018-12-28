@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\GameLogic\Extensions\CloneObjectExtension.cs" />
+     <Compile Include="Assets\Scripts\GameLogic\Extensions\UnityWebRequestAwaiter.cs" />
      <Compile Include="Assets\Scripts\GameLogic\GameLogic.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Interfaces\ICharacterController.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Interfaces\IReplayRecorder.cs" />
@@ -66,6 +67,7 @@
      <Compile Include="Assets\Scripts\GameLogic\Models\Team.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Models\TeamRoleMap.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Models\Tile.cs" />
+     <Compile Include="Assets\Scripts\GamePlay\CharacterControllerImpl\WebServiceCharacterController.cs" />
      <Compile Include="Assets\Scripts\Utility\MapTextureHelper.cs" />
  <Reference Include="UnityEngine.AIModule">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
