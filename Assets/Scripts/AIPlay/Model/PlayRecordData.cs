@@ -6,8 +6,8 @@ using UnityEngine;
 public class PlayRecordData
 {
   public string ISOTime;
-  public MapInfo mapInfo;
+  public SaveMapInfo mapInfo;
   public GameConfig gameRule;
-  public TeamRoleMap<string> playerNames;
+  public Dictionary<Team, Dictionary<Role, string>> playerNames;
   public List<List<TurnAction>> turnActions;
 }

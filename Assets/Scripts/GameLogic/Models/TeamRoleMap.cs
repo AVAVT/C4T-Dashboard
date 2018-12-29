@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-[JsonConverter(typeof(TeamRoleMapConverter<>))]
-public class TeamRoleMap<T> : IEnumerable<T>
+[System.Serializable]
+public class TeamRoleMap<T> : IEnumerable<T>, ISerializable
 {
   private Dictionary<Team, Dictionary<Role, T>> map;
   private IEnumerable<T> flattenedMap;
@@ -20,6 +21,11 @@ public class TeamRoleMap<T> : IEnumerable<T>
   {
     this.map = map;
     UpdateFlattenedList();
+  }
+
+  public Dictionary<Team, Dictionary<Role, T>> ToDictionary()
+  {
+    return new Dictionary<Team, Dictionary<Role, T>>(map);
   }
 
   public T GetItem(Team team, Role role)
@@ -99,5 +105,16 @@ public class TeamRoleMap<T> : IEnumerable<T>
   IEnumerator IEnumerable.GetEnumerator()
   {
     return flattenedMap.GetEnumerator();
+  }
+
+  public void GetObjectData(SerializationInfo info, StreamingContext context)
+  {
+    info.AddValue("map", map, typeof(Dictionary<Team, Dictionary<Role, T>>));
+  }
+
+  public TeamRoleMap(SerializationInfo info, StreamingContext context)
+  {
+    map = (Dictionary<Team, Dictionary<Role, T>>)info.GetValue("map", typeof(Dictionary<Team, Dictionary<Role, T>>));
+    UpdateFlattenedList();
   }
 }

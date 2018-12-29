@@ -9,7 +9,7 @@ public class GameConfig
   public readonly int plantFruitTime;
   public readonly int wildberryFruitTime;
   public readonly int harvesterMaxCapacity;
-  public readonly Dictionary<TileType, int> fruitScoreValues;
+  public readonly Dictionary<TileType, int> fruitScoreValues = new Dictionary<TileType, int>();
   public readonly List<Team> availableTeams;
   public readonly List<Role> availableRoles;
 
@@ -27,6 +27,8 @@ public class GameConfig
       availableRoles: new List<Role>() { Role.Planter, Role.Harvester, Role.Worm }
     );
   }
+
+  public GameConfig() { /* Needed for JSON.NET deserialization */ }
 
   public GameConfig(int sightDistance, int gameLength, int plantFruitTime, int wildberryFruitTime, int fruitHarvestValue, int wildberryHarvestValue, int harvesterMaxCapacity, List<Team> availableTeams, List<Role> availableRoles)
   {

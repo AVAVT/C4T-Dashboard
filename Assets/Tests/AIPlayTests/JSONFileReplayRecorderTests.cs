@@ -20,14 +20,24 @@ namespace AIPlayTests
       yield return LoadTextMapTexture(result => texture = result);
       var gameLogic = CreateTestGameLogic(texture);
 
+      var names = new TeamRoleMap<string>();
+      names.SetItem(Team.Red, Role.Planter, "RedPlanter");
+      names.SetItem(Team.Red, Role.Harvester, "RedHarvester");
+      names.SetItem(Team.Red, Role.Worm, "RedWorm");
+      names.SetItem(Team.Blue, Role.Planter, "BluePlanter");
+      names.SetItem(Team.Blue, Role.Harvester, "BlueHarvester");
+      names.SetItem(Team.Blue, Role.Worm, "BlueWorm");
+
       var exportPath = System.IO.Path.Combine(Application.dataPath, "Tests", "GeneratedTestData");
       var testRecorder = new JSONFileReplayRecoder(
         exportPath,
-        new TeamRoleMap<string>()
+        names
       );
 
       var task = gameLogic.PlayGame(testRecorder);
       yield return new WaitUntil(() => task.IsCompleted);
+      Assert.IsFalse(task.IsFaulted);
+      if (task.IsFaulted) Debug.Log(task.Exception);
       FileAssert.Exists(new System.IO.FileInfo(Path.Combine(exportPath, testRecorder.fileName)));
     }
 

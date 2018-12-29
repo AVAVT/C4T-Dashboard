@@ -12,20 +12,19 @@ public class JSONFileReplayRecoder : IReplayRecorder
   {
     this.exportPath = exportPath;
     recordData = new PlayRecordData();
-    recordData.playerNames = playerNames;
+    recordData.playerNames = playerNames.ToDictionary();
   }
 
   public void LogGameStart(GameConfig gameRule, MapInfo mapInfo)
   {
     recordData.gameRule = gameRule;
-    recordData.mapInfo = mapInfo;
+    recordData.mapInfo = SaveDataHelper.SaveMapInfoFrom(mapInfo);
     recordData.turnActions = new List<List<TurnAction>>();
   }
 
   public void LogTurn(ServerGameState serverGameState, List<TurnAction> actions)
   {
     var turnIndex = serverGameState.turn - 1;
-
     if (turnIndex < recordData.turnActions.Count) recordData.turnActions[turnIndex] = actions;
     else recordData.turnActions.Add(actions);
   }
@@ -34,8 +33,6 @@ public class JSONFileReplayRecoder : IReplayRecorder
   {
     recordData.ISOTime = System.DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssK");
     var jsonString = JsonConvert.SerializeObject(recordData);
-
-    UnityEngine.Debug.Log(jsonString);
 
     fileName = $"{DateTime.Now.ToString("ddMMyyyy_HHmmss")}.json";
     System.IO.FileInfo file = new System.IO.FileInfo(Path.Combine(exportPath, fileName));
