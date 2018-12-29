@@ -58,7 +58,6 @@ public class GameLogic
   {
     await DoStart(recorder);
     serverGameState.turn++;
-
     while (serverGameState.turn < gameRule.gameLength)
     {
       await PlayNextTurn(recorder);

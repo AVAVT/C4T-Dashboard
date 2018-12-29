@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -30,6 +31,31 @@ namespace AIPlayTests
       FileAssert.Exists(new System.IO.FileInfo(Path.Combine(exportPath, testRecorder.fileName)));
     }
 
+    [UnityTest]
+    public IEnumerator Game_Record_Can_Be_Read()
+    {
+      Texture2D texture = null;
+      yield return LoadTextMapTexture(result => texture = result);
+      var gameLogic = CreateTestGameLogic(texture);
+
+      var exportPath = System.IO.Path.Combine(Application.dataPath, "Tests", "GeneratedTestData");
+      var testRecorder = new JSONFileReplayRecoder(
+        exportPath,
+        new TeamRoleMap<string>()
+      );
+
+      var task = gameLogic.PlayGame(testRecorder);
+      yield return new WaitUntil(() => task.IsCompleted);
+      Assert.DoesNotThrow(() =>
+      {
+        var path = Path.Combine(exportPath, testRecorder.fileName);
+        using (StreamReader reader = new StreamReader(path))
+        {
+          var jsonString = reader.ReadToEnd();
+          PlayRecordData data = JsonConvert.DeserializeObject<PlayRecordData>(jsonString);
+        }
+      });
+    }
     IEnumerator LoadTextMapTexture(Action<Texture2D> callback)
     {
       var www = UnityWebRequestTexture.GetTexture("file://" + System.IO.Path.Combine(Application.streamingAssetsPath, "MapTextures/11x9.png"));

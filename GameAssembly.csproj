@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\AIPlay\Model\PlayRecordData.cs" />
      <Compile Include="Assets\Scripts\AIPlay\Model\WebServiceTurnData.cs" />
      <Compile Include="Assets\Scripts\AIPlay\ReplayRecorderImpl\JSONFileReplayRecoder.cs" />
+     <Compile Include="Assets\Scripts\AIPlay\ReplayRecorderImpl\TeamRoleMapConverter.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Extensions\CloneObjectExtension.cs" />
      <Compile Include="Assets\Scripts\GameLogic\GameLogic.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Interfaces\ICharacterDescisionMaker.cs" />

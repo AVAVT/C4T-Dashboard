@@ -17,7 +17,7 @@ namespace AIPlayTests
     {
       process = new System.Diagnostics.Process();
       process.StartInfo.FileName = "node.exe";
-      process.StartInfo.Arguments = $"\"{Application.dataPath}/Scripts/Tests/MockAIServer-JS/index.js\"";
+      process.StartInfo.Arguments = $"\"{Application.dataPath}/Tests/MockAIServer-JS/index.js\"";
       process.Start();
     }
 

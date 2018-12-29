@@ -35,6 +35,8 @@ public class JSONFileReplayRecoder : IReplayRecorder
     recordData.ISOTime = System.DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssK");
     var jsonString = JsonConvert.SerializeObject(recordData);
 
+    UnityEngine.Debug.Log(jsonString);
+
     fileName = $"{DateTime.Now.ToString("ddMMyyyy_HHmmss")}.json";
     System.IO.FileInfo file = new System.IO.FileInfo(Path.Combine(exportPath, fileName));
     file.Directory.Create();
