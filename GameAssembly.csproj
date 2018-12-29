@@ -58,7 +58,6 @@
      <Compile Include="Assets\Scripts\AIPlay\Model\PlayRecordData.cs" />
      <Compile Include="Assets\Scripts\AIPlay\Model\WebServiceTurnData.cs" />
      <Compile Include="Assets\Scripts\AIPlay\ReplayRecorderImpl\JSONFileReplayRecoder.cs" />
-     <Compile Include="Assets\Scripts\AIPlay\ReplayRecorderImpl\TeamRoleMapConverter.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Extensions\CloneObjectExtension.cs" />
      <Compile Include="Assets\Scripts\GameLogic\GameLogic.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Interfaces\ICharacterDescisionMaker.cs" />
@@ -71,6 +70,7 @@
      <Compile Include="Assets\Scripts\GameLogic\Models\ServerGameState.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Models\Team.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Models\TeamRoleMap.cs" />
+     <Compile Include="Assets\Scripts\GameLogic\Models\TeamRoleMapConverter.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Models\Tile.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Models\TurnAction.cs" />
      <Compile Include="Assets\Scripts\Utility\MapTextureHelper.cs" />
