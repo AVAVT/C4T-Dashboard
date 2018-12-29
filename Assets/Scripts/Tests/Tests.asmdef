@@ -1,14 +1,12 @@
 {
-    "name": "GameLogicTests",
+    "name": "Tests",
     "references": [
         "GameAssembly"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

@@ -220,7 +220,7 @@ namespace GameLogicTests
     }
 
     [Test]
-    public void Harvester_Reset_GrowState_When_Harvested()
+    public void Harvester_Reset_Tile_GrowState_When_Harvested()
     {
       var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
       List<TurnAction> actions = new List<TurnAction>()
