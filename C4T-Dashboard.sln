@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameAssembly", "GameAssembly.csproj", "{A1584154-3E83-14DD-3B54-684888E2DA1A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests.csproj", "{AB5F8489-B412-C1CE-3BCE-D85C3C710FC3}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{1F73E2DE-94F5-F072-BFB3-18AC83CE0F1B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{B797964D-9949-27D7-C17C-1979BF59047E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests.csproj", "{AB5F8489-B412-C1CE-3BCE-D85C3C710FC3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{04E86029-B38E-41AB-E389-0C902F2C6BD9}"
 EndProject
@@ -23,6 +23,10 @@ Global
 		{A1584154-3E83-14DD-3B54-684888E2DA1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1584154-3E83-14DD-3B54-684888E2DA1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1584154-3E83-14DD-3B54-684888E2DA1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB5F8489-B412-C1CE-3BCE-D85C3C710FC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB5F8489-B412-C1CE-3BCE-D85C3C710FC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB5F8489-B412-C1CE-3BCE-D85C3C710FC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB5F8489-B412-C1CE-3BCE-D85C3C710FC3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1F73E2DE-94F5-F072-BFB3-18AC83CE0F1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F73E2DE-94F5-F072-BFB3-18AC83CE0F1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F73E2DE-94F5-F072-BFB3-18AC83CE0F1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,10 +35,6 @@ Global
 		{B797964D-9949-27D7-C17C-1979BF59047E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B797964D-9949-27D7-C17C-1979BF59047E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B797964D-9949-27D7-C17C-1979BF59047E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AB5F8489-B412-C1CE-3BCE-D85C3C710FC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB5F8489-B412-C1CE-3BCE-D85C3C710FC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB5F8489-B412-C1CE-3BCE-D85C3C710FC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB5F8489-B412-C1CE-3BCE-D85C3C710FC3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{04E86029-B38E-41AB-E389-0C902F2C6BD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{04E86029-B38E-41AB-E389-0C902F2C6BD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04E86029-B38E-41AB-E389-0C902F2C6BD9}.Release|Any CPU.ActiveCfg = Release|Any CPU

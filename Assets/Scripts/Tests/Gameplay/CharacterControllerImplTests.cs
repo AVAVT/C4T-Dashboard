@@ -10,42 +10,21 @@ namespace AIPlayTests
 {
   public class CharacterControllerImplTests
   {
-    private class MockRecorder : IReplayRecorder
-    {
-      public int turnNumber = 0;
-      public void LogEndGame(ServerGameState serverGameState)
-      {
-        turnNumber = serverGameState.turn;
-      }
+    System.Diagnostics.Process process;
 
-      public void LogGameStart(GameConfig gameRule, ServerGameState serverGameState)
-      {
-        turnNumber = serverGameState.turn;
-      }
-
-      public void LogTurn(ServerGameState serverGameState, List<TurnAction> actions)
-      {
-        turnNumber = serverGameState.turn;
-      }
-    }
-    IEnumerator LoadTextMapTexture(Action<Texture2D> callback)
+    [OneTimeSetUp]
+    public void SetupMockServer()
     {
-      var www = UnityWebRequestTexture.GetTexture("file://" + System.IO.Path.Combine(Application.streamingAssetsPath, "MapTextures/11x9.png"));
-      yield return www.SendWebRequest();
-      callback(((DownloadHandlerTexture)www.downloadHandler).texture);
+      process = new System.Diagnostics.Process();
+      process.StartInfo.FileName = "node.exe";
+      process.StartInfo.Arguments = $"\"{Application.dataPath}/Scripts/Tests/MockAIServer-JS/index.js\"";
+      process.Start();
     }
 
-    WebServiceCharacterController CreateTestController(string startPath = "/start", string turnPath = "/turn")
+    [OneTimeTearDown]
+    public void StopMockServer()
     {
-      var controller = new WebServiceCharacterController(
-        "http://localhost:8686",
-        startPath,
-        turnPath
-      );
-
-      controller.Character = new Character(0, 0, Team.Red, Role.Harvester);
-
-      return controller;
+      process.Kill();
     }
 
     [UnityTest]
@@ -184,6 +163,44 @@ namespace AIPlayTests
       var task = gameLogic.PlayGame(mockRecorder);
       yield return new WaitUntil(() => task.IsCompleted);
       Assert.AreEqual(gameConfig.gameLength, mockRecorder.turnNumber);
+    }
+
+    private class MockRecorder : IReplayRecorder
+    {
+      public int turnNumber = 0;
+      public void LogEndGame(ServerGameState serverGameState)
+      {
+        turnNumber = serverGameState.turn;
+      }
+
+      public void LogGameStart(GameConfig gameRule, ServerGameState serverGameState)
+      {
+        turnNumber = serverGameState.turn;
+      }
+
+      public void LogTurn(ServerGameState serverGameState, List<TurnAction> actions)
+      {
+        turnNumber = serverGameState.turn;
+      }
+    }
+    IEnumerator LoadTextMapTexture(Action<Texture2D> callback)
+    {
+      var www = UnityWebRequestTexture.GetTexture("file://" + System.IO.Path.Combine(Application.streamingAssetsPath, "MapTextures/11x9.png"));
+      yield return www.SendWebRequest();
+      callback(((DownloadHandlerTexture)www.downloadHandler).texture);
+    }
+
+    WebServiceCharacterController CreateTestController(string startPath = "/start", string turnPath = "/turn")
+    {
+      var controller = new WebServiceCharacterController(
+        "http://localhost:8686",
+        startPath,
+        turnPath
+      );
+
+      controller.Character = new Character(0, 0, Team.Red, Role.Harvester);
+
+      return controller;
     }
   }
 }
