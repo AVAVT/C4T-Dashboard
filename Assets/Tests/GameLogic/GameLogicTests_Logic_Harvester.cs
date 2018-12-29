@@ -53,7 +53,7 @@ namespace GameLogicTests
       var customMapInfo = CreateTestMapInfo();
       customMapInfo.startingPositions.SetItem(Team.Red, Role.Harvester, new Vector2(4, 0));
       customMapInfo.startingPositions.SetItem(Team.Blue, Role.Worm, new Vector2(4, 1));
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, customMapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, customMapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.STAY),
@@ -80,7 +80,7 @@ namespace GameLogicTests
       var customMapInfo = CreateTestMapInfo();
       customMapInfo.startingPositions.SetItem(Team.Red, Role.Harvester, new Vector2(4, 1));
       customMapInfo.startingPositions.SetItem(Team.Blue, Role.Worm, new Vector2(4, 0));
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, customMapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, customMapInfo);
 
       List<TurnAction> actions = new List<TurnAction>()
       {
@@ -110,7 +110,7 @@ namespace GameLogicTests
     [Test]
     public void Harvester_Harvest_Team_Plant()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.RIGHT),
@@ -146,7 +146,7 @@ namespace GameLogicTests
     {
       var customMapInfo = CreateTestMapInfo();
       customMapInfo.startingPositions.SetItem(Team.Red, Role.Harvester, new Vector2(4, 0));
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, customMapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, customMapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.STAY),
@@ -169,7 +169,7 @@ namespace GameLogicTests
       var customMapInfo = CreateTestMapInfo();
       customMapInfo.startingPositions.SetItem(Team.Red, Role.Harvester, new Vector2(4, 0));
       customMapInfo.startingPositions.SetItem(Team.Blue, Role.Harvester, new Vector2(4, 2));
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, customMapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, customMapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.STAY),
@@ -193,7 +193,7 @@ namespace GameLogicTests
       var customMapInfo = CreateTestMapInfo();
       customMapInfo.startingPositions.SetItem(Team.Red, Role.Planter, new Vector2(2, 0));
       customMapInfo.startingPositions.SetItem(Team.Red, Role.Harvester, new Vector2(2, 0));
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, customMapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, customMapInfo);
 
       List<TurnAction> actions = new List<TurnAction>()
       {
@@ -222,7 +222,7 @@ namespace GameLogicTests
     [Test]
     public void Harvester_Reset_Tile_GrowState_When_Harvested()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.RIGHT),
@@ -259,7 +259,7 @@ namespace GameLogicTests
     {
       var customMapInfo = CreateTestMapInfo();
       customMapInfo.startingPositions.SetItem(Team.Red, Role.Harvester, new Vector2(4, 0));
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, customMapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, customMapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.STAY),
@@ -281,7 +281,7 @@ namespace GameLogicTests
     {
       var customMapInfo = CreateTestMapInfo();
       customMapInfo.startingPositions.SetItem(Team.Red, Role.Harvester, new Vector2(4, 0));
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, customMapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, customMapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.STAY),
@@ -328,7 +328,7 @@ namespace GameLogicTests
     {
       var customMapInfo = CreateTestMapInfo();
       customMapInfo.startingPositions.SetItem(Team.Red, Role.Harvester, new Vector2(4, 0));
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, customMapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, customMapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.STAY),

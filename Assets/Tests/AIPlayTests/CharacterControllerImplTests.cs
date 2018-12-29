@@ -34,7 +34,7 @@ namespace AIPlayTests
       yield return LoadTextMapTexture(result => texture = result);
       var mapInfo = MapTextureHelper.MapInfoFromTexture2D(texture);
       var gameConfig = GameConfig.DefaultGameRule();
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var controller = CreateTestController("/start", "/turn");
 
       var task = controller.DoTurn(gameLogic.GetGameStateSnapShot().GameStateForTeam(Team.Red, gameConfig), gameConfig);
@@ -51,7 +51,7 @@ namespace AIPlayTests
       yield return LoadTextMapTexture(result => texture = result);
       var mapInfo = MapTextureHelper.MapInfoFromTexture2D(texture);
       var gameConfig = GameConfig.DefaultGameRule();
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var controller = CreateTestController("/start", "/turn");
 
       var task = controller.DoTurn(gameLogic.GetGameStateSnapShot().GameStateForTeam(Team.Red, gameConfig), gameConfig);
@@ -68,7 +68,7 @@ namespace AIPlayTests
       yield return LoadTextMapTexture(result => texture = result);
       var mapInfo = MapTextureHelper.MapInfoFromTexture2D(texture);
       var gameConfig = GameConfig.DefaultGameRule();
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var controller = CreateTestController("/timeout", "/timeout");
 
       var task = controller.DoStart(gameLogic.GetGameStateSnapShot().GameStateForTeam(Team.Red, gameConfig), gameConfig);
@@ -85,7 +85,7 @@ namespace AIPlayTests
       yield return LoadTextMapTexture(result => texture = result);
       var mapInfo = MapTextureHelper.MapInfoFromTexture2D(texture);
       var gameConfig = GameConfig.DefaultGameRule();
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var controller = CreateTestController("/timeout", "/timeout");
 
       var task = controller.DoTurn(gameLogic.GetGameStateSnapShot().GameStateForTeam(Team.Red, gameConfig), gameConfig);
@@ -102,7 +102,7 @@ namespace AIPlayTests
       yield return LoadTextMapTexture(result => texture = result);
       var mapInfo = MapTextureHelper.MapInfoFromTexture2D(texture);
       var gameConfig = GameConfig.DefaultGameRule();
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var controller = CreateTestController("/crash", "/crash");
 
       var task = controller.DoStart(gameLogic.GetGameStateSnapShot().GameStateForTeam(Team.Red, gameConfig), gameConfig);
@@ -119,7 +119,7 @@ namespace AIPlayTests
       yield return LoadTextMapTexture(result => texture = result);
       var mapInfo = MapTextureHelper.MapInfoFromTexture2D(texture);
       var gameConfig = GameConfig.DefaultGameRule();
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var controller = CreateTestController("/crash", "/crash");
 
       var task = controller.DoTurn(gameLogic.GetGameStateSnapShot().GameStateForTeam(Team.Red, gameConfig), gameConfig);
@@ -147,9 +147,9 @@ namespace AIPlayTests
         availableRoles: new List<Role>() { Role.Planter, Role.Harvester, Role.Worm }
       );
 
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
 
-      var controllerMap = new TeamRoleMap<ICharacterController>();
+      var controllerMap = new TeamRoleMap<ICharacterDescisionMaker>();
       controllerMap.SetItem(Team.Red, Role.Planter, CreateTestController());
       controllerMap.SetItem(Team.Red, Role.Harvester, CreateTestController());
       controllerMap.SetItem(Team.Red, Role.Worm, CreateTestController());
@@ -157,7 +157,7 @@ namespace AIPlayTests
       controllerMap.SetItem(Team.Blue, Role.Harvester, CreateTestController());
       controllerMap.SetItem(Team.Blue, Role.Worm, CreateTestController());
 
-      gameLogic.InitializeGame(controllerMap);
+      gameLogic.BindDecisionMakers(controllerMap);
       var mockRecorder = new MockRecorder();
 
       var task = gameLogic.PlayGame(mockRecorder);
@@ -173,9 +173,9 @@ namespace AIPlayTests
         turnNumber = serverGameState.turn;
       }
 
-      public void LogGameStart(GameConfig gameRule, ServerGameState serverGameState)
+      public void LogGameStart(GameConfig gameRule, MapInfo mapInfo)
       {
-        turnNumber = serverGameState.turn;
+        turnNumber = 0;
       }
 
       public void LogTurn(ServerGameState serverGameState, List<TurnAction> actions)
@@ -190,9 +190,9 @@ namespace AIPlayTests
       callback(((DownloadHandlerTexture)www.downloadHandler).texture);
     }
 
-    WebServiceCharacterController CreateTestController(string startPath = "/start", string turnPath = "/turn")
+    WebServiceDecisionMaker CreateTestController(string startPath = "/start", string turnPath = "/turn")
     {
-      var controller = new WebServiceCharacterController(
+      var controller = new WebServiceDecisionMaker(
         "http://localhost:8686",
         startPath,
         turnPath

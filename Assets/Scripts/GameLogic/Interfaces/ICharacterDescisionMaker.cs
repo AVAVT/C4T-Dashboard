@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-public interface ICharacterController
+public interface ICharacterDescisionMaker
 {
   Task DoStart(GameState gameState, GameConfig gameRule);
   Task<string> DoTurn(GameState gameState, GameConfig gameRule);

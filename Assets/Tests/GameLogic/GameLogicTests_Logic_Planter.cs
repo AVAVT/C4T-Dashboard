@@ -50,7 +50,7 @@ namespace GameLogicTests
     [Test]
     public void Planter_Catch_Worm()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.RIGHT),
@@ -73,7 +73,7 @@ namespace GameLogicTests
     [Test]
     public void Planter_Record_numWormCaught_Correctly()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.RIGHT),
@@ -94,7 +94,7 @@ namespace GameLogicTests
     [Test]
     public void Planter_Plant_Team_Tree()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.RIGHT),
@@ -114,7 +114,7 @@ namespace GameLogicTests
     [Test]
     public void Planter_Record_numTreePlanted_Correctly()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.RIGHT),

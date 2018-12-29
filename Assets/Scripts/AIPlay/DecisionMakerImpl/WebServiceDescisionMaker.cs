@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class WebServiceCharacterController : ICharacterController
+public class WebServiceDecisionMaker : ICharacterDescisionMaker
 {
   private static string TIMEOUT_MESSAGE = "request timeout";
   private Character character;
@@ -21,7 +21,7 @@ public class WebServiceCharacterController : ICharacterController
   private string startPath = "";
   private string turnPath = "";
 
-  public WebServiceCharacterController(string host, string startPath = "/start", string turnPath = "/turn")
+  public WebServiceDecisionMaker(string host, string startPath = "/start", string turnPath = "/turn")
   {
     this.host = host;
     this.startPath = startPath;
@@ -31,10 +31,13 @@ public class WebServiceCharacterController : ICharacterController
   public async Task DoStart(GameState gameState, GameConfig gameRule)
   {
     WWWForm form = new WWWForm();
-    form.AddField("gameState", JsonConvert.SerializeObject(gameState));
-    form.AddField("gameRule", JsonConvert.SerializeObject(gameRule));
-    form.AddField("team", (int)character.team);
-    form.AddField("role", (int)character.role);
+    form.AddField("data", JsonConvert.SerializeObject(new WebServiceTurnData()
+    {
+      gameRule = gameRule,
+      gameState = gameState,
+      team = (int)character.team,
+      role = (int)character.role
+    }));
 
     UnityWebRequest www = UnityWebRequest.Post($"{host}{startPath}", form);
     www.timeout = 1;
@@ -54,10 +57,13 @@ public class WebServiceCharacterController : ICharacterController
     if (isCrashed || isTimedOut) return Directions.STAY;
 
     WWWForm form = new WWWForm();
-    form.AddField("gameState", JsonConvert.SerializeObject(gameState));
-    form.AddField("gameRule", JsonConvert.SerializeObject(gameRule));
-    form.AddField("team", (int)character.team);
-    form.AddField("role", (int)character.role);
+    form.AddField("data", JsonConvert.SerializeObject(new WebServiceTurnData()
+    {
+      gameRule = gameRule,
+      gameState = gameState,
+      team = (int)character.team,
+      role = (int)character.role
+    }));
 
     UnityWebRequest www = UnityWebRequest.Post($"{host}{turnPath}", form);
     www.timeout = 1;

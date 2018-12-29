@@ -52,7 +52,7 @@ namespace GameLogicTests
     {
       var customMapInfo = CreateTestMapInfo();
       customMapInfo.startingPositions.SetItem(Team.Red, Role.Planter, new Vector2(1, 0));
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, customMapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, customMapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.STAY),
@@ -74,7 +74,7 @@ namespace GameLogicTests
     {
       var customMapInfo = CreateTestMapInfo();
       customMapInfo.startingPositions.SetItem(Team.Red, Role.Planter, new Vector2(1, 0));
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, customMapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, customMapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.STAY),
@@ -96,7 +96,7 @@ namespace GameLogicTests
     {
       var customMapInfo = CreateTestMapInfo();
       customMapInfo.startingPositions.SetItem(Team.Red, Role.Harvester, new Vector2(4, 1));
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, customMapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, customMapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.STAY),
@@ -117,7 +117,7 @@ namespace GameLogicTests
     [Test]
     public void Wildberry_Doesnt_Increase_GrowState_At_Max()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.STAY),

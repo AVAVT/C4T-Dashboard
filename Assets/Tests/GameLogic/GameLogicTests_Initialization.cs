@@ -49,14 +49,14 @@ namespace GameLogicTests
     [Test]
     public void ServerGameState_Initialized_Not_NULL()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       Assert.IsNotNull(gameLogic.GetGameStateSnapShot());
     }
 
     [Test]
     public void ServerGameState_Initialized_Correct_Size()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var map = gameLogic.GetGameStateSnapShot().map;
       Assert.AreEqual(mapInfo.tiles.Count, map.Count);
       Assert.AreEqual(mapInfo.tiles[0].Count, map[0].Count);
@@ -65,7 +65,7 @@ namespace GameLogicTests
     [Test]
     public void ServerGameState_Initialized_RedPlanter_Position()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var characters = gameLogic.GetGameStateSnapShot().characters;
       Assert.AreEqual(0, characters.GetItem(Team.Red, Role.Planter).x);
       Assert.AreEqual(0, characters.GetItem(Team.Red, Role.Planter).y);
@@ -74,7 +74,7 @@ namespace GameLogicTests
     [Test]
     public void ServerGameState_Initialized_RedHarvester_Position()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var characters = gameLogic.GetGameStateSnapShot().characters;
       Assert.AreEqual(0, characters.GetItem(Team.Red, Role.Harvester).x);
       Assert.AreEqual(0, characters.GetItem(Team.Red, Role.Harvester).y);
@@ -83,7 +83,7 @@ namespace GameLogicTests
     [Test]
     public void ServerGameState_Initialized_RedWorm_Position()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var characters = gameLogic.GetGameStateSnapShot().characters;
       Assert.AreEqual(0, characters.GetItem(Team.Red, Role.Worm).x);
       Assert.AreEqual(4, characters.GetItem(Team.Red, Role.Worm).y);
@@ -92,7 +92,7 @@ namespace GameLogicTests
     [Test]
     public void ServerGameState_Initialized_BluePlanter_Position()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var characters = gameLogic.GetGameStateSnapShot().characters;
       Assert.AreEqual(6, characters.GetItem(Team.Blue, Role.Planter).x);
       Assert.AreEqual(4, characters.GetItem(Team.Blue, Role.Planter).y);
@@ -101,7 +101,7 @@ namespace GameLogicTests
     [Test]
     public void ServerGameState_Initialized_BlueHarvester_Position()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var characters = gameLogic.GetGameStateSnapShot().characters;
       Assert.AreEqual(6, characters.GetItem(Team.Blue, Role.Harvester).x);
       Assert.AreEqual(4, characters.GetItem(Team.Blue, Role.Harvester).y);
@@ -110,7 +110,7 @@ namespace GameLogicTests
     [Test]
     public void ServerGameState_Initialized_BlueWorm_Position()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var characters = gameLogic.GetGameStateSnapShot().characters;
       Assert.AreEqual(6, characters.GetItem(Team.Blue, Role.Worm).x);
       Assert.AreEqual(0, characters.GetItem(Team.Blue, Role.Worm).y);
@@ -119,7 +119,7 @@ namespace GameLogicTests
     [Test]
     public void ServerGameState_Initialized_WildBerry_Position()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var map = gameLogic.GetGameStateSnapShot().map;
       Assert.AreEqual(TileType.WILDBERRY, map[2][3].type);
       Assert.AreEqual(TileType.WILDBERRY, map[4][1].type);
@@ -127,7 +127,7 @@ namespace GameLogicTests
     [Test]
     public void ServerGameState_Initialized_WildBerry_GrowState()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var map = gameLogic.GetGameStateSnapShot().map;
       Assert.AreEqual(gameConfig.wildberryFruitTime, map[2][3].growState);
       Assert.AreEqual(gameConfig.wildberryFruitTime, map[4][1].growState);
@@ -136,7 +136,7 @@ namespace GameLogicTests
     [Test]
     public void ServerGameState_Initialized_Water_Position()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var map = gameLogic.GetGameStateSnapShot().map;
       Assert.AreEqual(TileType.IMPASSABLE, map[2][1].type);
       Assert.AreEqual(TileType.IMPASSABLE, map[4][3].type);
@@ -145,7 +145,7 @@ namespace GameLogicTests
     [Test]
     public void ServerGameState_Initialized_Empty_GrowState()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       var map = gameLogic.GetGameStateSnapShot().map;
       foreach (var col in map)
       {

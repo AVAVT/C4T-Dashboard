@@ -7,21 +7,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ extended: false }));
 
 app.post('/start', (req, res) => {
-  console.log(`DoStart for team ${req.body.team} - role ${req.body.role}`);
+  const data = JSON.parse(req.body.data);
+  console.log(`DoStart test for team ${data.team} - role ${data.role}`);
   res.send();
 });
 
 app.post('/turn', (req, res) => {
-  console.log(`DoTurn for team ${req.body.team} - role ${req.body.role}`);
+  const data = JSON.parse(req.body.data);
+  console.log(`DoTurn test for team ${data.team} - role ${data.role}`);
   res.send('DOWN');
 });
 
 app.post('/timeout', (req, res) => {
-  console.log(`Timeout for team ${req.body.team} - role ${req.body.role}`);
+  const data = JSON.parse(req.body.data);
+  console.log(`Timeout test for team ${data.team} - role ${data.role}`);
 });
 
 app.post('/crash', (req, res) => {
-  console.log(`Crash for team ${req.body.team} - role ${req.body.role}`);
+  const data = JSON.parse(req.body.data);
+  console.log(`Crash test for team ${data.team} - role ${data.role}`);
   res.sendStatus(500);
 });
 

@@ -50,7 +50,7 @@ namespace GameLogicTests
     [Test]
     public void Characters_Move_Correctly()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.DOWN),
@@ -81,7 +81,7 @@ namespace GameLogicTests
     [Test]
     public void Characters_Cant_Move_Out_Of_Map()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.STAY),
@@ -103,7 +103,7 @@ namespace GameLogicTests
     {
       var customMapInfo = CreateTestMapInfo();
       customMapInfo.startingPositions.SetItem(Team.Red, Role.Planter, new Vector2(2, 0));
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, customMapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, customMapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.DOWN),
@@ -123,7 +123,7 @@ namespace GameLogicTests
     [Test]
     public void Characters_Stay_Correctly()
     {
-      var gameLogic = GameLogic.GameLogicForPlay(gameConfig, mapInfo);
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
       List<TurnAction> actions = new List<TurnAction>()
       {
         new TurnAction(Team.Red, Role.Planter, Directions.STAY),

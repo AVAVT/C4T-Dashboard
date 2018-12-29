@@ -14,16 +14,16 @@ public class GameLogic
 
   MapInfo mapInfo;
   GameConfig gameRule;
-  public TeamRoleMap<ICharacterController> characterControllers;
+  public TeamRoleMap<ICharacterDescisionMaker> characterControllers;
 
-  public static GameLogic GameLogicForPlay(GameConfig gameRule, MapInfo mapInfo)
+  public static GameLogic GameLogicForNewGame(GameConfig gameRule, MapInfo mapInfo)
   {
     return new GameLogic(gameRule, mapInfo);
   }
 
-  public static GameLogic GameLogicForViewReplay(GameConfig gameRule, ServerGameState replayGameState)
+  public static GameLogic GameLogicFromArbitaryState(GameConfig gameRule, ServerGameState currentGameState)
   {
-    return new GameLogic(gameRule, replayGameState);
+    return new GameLogic(gameRule, currentGameState);
   }
 
   public ServerGameState GetGameStateSnapShot()
@@ -40,19 +40,20 @@ public class GameLogic
     InitializeMap(serverGameState, mapInfo);
   }
 
-  private GameLogic(GameConfig gameRule, ServerGameState replayGameState)
+  private GameLogic(GameConfig gameRule, ServerGameState currentGameState)
   {
-    serverGameState = replayGameState;
+    serverGameState = currentGameState;
     this.gameRule = gameRule;
   }
 
-  public void InitializeGame(TeamRoleMap<ICharacterController> characterControllers)
+  public void BindDecisionMakers(TeamRoleMap<ICharacterDescisionMaker> decisionMakers)
   {
-    this.characterControllers = characterControllers;
+    this.characterControllers = decisionMakers;
 
-    AssignCharacterToControllers(serverGameState, characterControllers);
+    AssignCharacterToControllers(serverGameState, decisionMakers);
   }
 
+  /// <summary>Play a full game from beginning to end with provided recorder</summary>
   public async Task PlayGame(IReplayRecorder recorder = null)
   {
     await DoStart(recorder);
@@ -77,7 +78,7 @@ public class GameLogic
         await controller.DoStart(teamGameState, gameRule);
       }
     }
-    recorder?.LogGameStart(gameRule, serverGameState);
+    recorder?.LogGameStart(gameRule, mapInfo);
   }
 
   async Task PlayNextTurn(IReplayRecorder recorder)
@@ -352,7 +353,7 @@ public class GameLogic
     return gameState;
   }
 
-  void AssignCharacterToControllers(ServerGameState gameState, TeamRoleMap<ICharacterController> controllers)
+  void AssignCharacterToControllers(ServerGameState gameState, TeamRoleMap<ICharacterDescisionMaker> controllers)
   {
     foreach (var character in gameState.characters)
     {
