@@ -66,6 +66,7 @@ namespace AIPlayTests
         }
       });
     }
+
     IEnumerator LoadTextMapTexture(Action<Texture2D> callback)
     {
       var www = UnityWebRequestTexture.GetTexture("file://" + System.IO.Path.Combine(Application.streamingAssetsPath, "MapTextures/11x9.png"));
@@ -108,10 +109,10 @@ namespace AIPlayTests
       public Character Character { get => character; set => character = value; }
       public bool IsTimedOut => false;
       public bool IsCrashed => false;
-      public async Task DoStart(GameState gameState, GameConfig gameRule) { }
-      public async Task<string> DoTurn(GameState gameState, GameConfig gameRule)
+      public Task DoStart(GameState gameState, GameConfig gameRule) { return Task.Run(() => { }); }
+      public Task<string> DoTurn(GameState gameState, GameConfig gameRule)
       {
-        return Directions.DOWN;
+        return Task.Run<string>(() => { return Directions.DOWN; });
       }
     }
   }

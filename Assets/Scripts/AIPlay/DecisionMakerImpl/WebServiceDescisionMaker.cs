@@ -11,6 +11,9 @@ public class WebServiceDecisionMaker : ICharacterDescisionMaker
   private Character character;
   public Character Character { get => character; set => character = value; }
 
+  public string PlayerName { get; private set; }
+  public bool IsReady { get; private set; }
+
   private bool isTimedOut = false;
   public bool IsTimedOut => isTimedOut;
 
@@ -20,12 +23,16 @@ public class WebServiceDecisionMaker : ICharacterDescisionMaker
   private string host = "";
   private string startPath = "";
   private string turnPath = "";
+  private string namePath = "";
 
-  public WebServiceDecisionMaker(string host, string startPath = "/start", string turnPath = "/turn")
+  public WebServiceDecisionMaker(string host, string startPath = "/start", string turnPath = "/turn", string namePath = "/name")
   {
     this.host = host;
     this.startPath = startPath;
     this.turnPath = turnPath;
+    this.PlayerName = "UNKNOWN";
+    this.namePath = namePath;
+    IsReady = false;
   }
 
   public async Task DoStart(GameState gameState, GameConfig gameRule)
@@ -78,6 +85,23 @@ public class WebServiceDecisionMaker : ICharacterDescisionMaker
     else
     {
       return www.downloadHandler.text;
+    }
+  }
+
+  public async Task Handshake()
+  {
+    UnityWebRequest www = UnityWebRequest.Get($"{host}{namePath}");
+    www.timeout = 1;
+    await www.SendWebRequest();
+
+    if (www.isNetworkError || www.isHttpError)
+    {
+      IsReady = false;
+    }
+    else
+    {
+      PlayerName = www.downloadHandler.text;
+      IsReady = true;
     }
   }
 }

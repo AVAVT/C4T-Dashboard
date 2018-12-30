@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayRecordData
 {
   public string ISOTime;
+  public int gameLogicVersion;
   public SaveMapInfo mapInfo;
   public GameConfig gameRule;
   public Dictionary<Team, Dictionary<Role, string>> playerNames;

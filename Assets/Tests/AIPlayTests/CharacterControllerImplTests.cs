@@ -130,6 +130,31 @@ namespace AIPlayTests
     }
 
     [UnityTest]
+    public IEnumerator Handshake_Successfully()
+    {
+
+      var controller = CreateTestController();
+
+      var task = controller.Handshake();
+      yield return new WaitUntil(() => task.IsCompleted);
+
+      Assert.IsTrue(controller.IsReady);
+      Assert.AreEqual("Test Player Name", controller.PlayerName);
+    }
+
+    [UnityTest]
+    public IEnumerator Handle_Handshake_Crash_Correctly()
+    {
+      var controller = CreateTestController("/start", "/turn", "/namecrash");
+
+      var task = controller.Handshake();
+      yield return new WaitUntil(() => task.IsCompleted);
+
+      Assert.IsFalse(controller.IsReady);
+      Assert.AreEqual("UNKNOWN", controller.PlayerName);
+    }
+
+    [UnityTest]
     public IEnumerator Work_Until_Last_Turn()
     {
       Texture2D texture = null;
@@ -173,7 +198,7 @@ namespace AIPlayTests
         turnNumber = serverGameState.turn;
       }
 
-      public void LogGameStart(GameConfig gameRule, MapInfo mapInfo)
+      public void LogGameStart(int gameLogicVersion, GameConfig gameRule, MapInfo mapInfo)
       {
         turnNumber = 0;
       }
@@ -190,12 +215,13 @@ namespace AIPlayTests
       callback(((DownloadHandlerTexture)www.downloadHandler).texture);
     }
 
-    WebServiceDecisionMaker CreateTestController(string startPath = "/start", string turnPath = "/turn")
+    WebServiceDecisionMaker CreateTestController(string startPath = "/start", string turnPath = "/turn", string namePath = "/name")
     {
       var controller = new WebServiceDecisionMaker(
         "http://localhost:8686",
         startPath,
-        turnPath
+        turnPath,
+        namePath
       );
 
       controller.Character = new Character(0, 0, Team.Red, Role.Harvester);

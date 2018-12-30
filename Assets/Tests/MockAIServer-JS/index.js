@@ -29,6 +29,16 @@ app.post('/crash', (req, res) => {
   res.sendStatus(500);
 });
 
+app.get('/name', (req, res) => {
+  console.log(`Name test`);
+  res.send("Test Player Name");
+});
+
+app.get('/namecrash', (req, res) => {
+  console.log(`Name crash test`);
+  res.sendStatus(500);
+});
+
 const port = process.env.port || 8686;
 
 app.listen(port, err => {

@@ -12,6 +12,8 @@ public class GameLogic
 {
   private ServerGameState serverGameState;
 
+  private static int version = 1;
+
   MapInfo mapInfo;
   GameConfig gameRule;
   public TeamRoleMap<ICharacterDescisionMaker> characterControllers;
@@ -77,7 +79,7 @@ public class GameLogic
         await controller.DoStart(teamGameState, gameRule);
       }
     }
-    recorder?.LogGameStart(gameRule, mapInfo);
+    recorder?.LogGameStart(version, gameRule, mapInfo);
   }
 
   async Task PlayNextTurn(IReplayRecorder recorder)

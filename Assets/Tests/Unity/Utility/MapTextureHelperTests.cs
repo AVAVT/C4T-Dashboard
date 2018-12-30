@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.TestTools;
 
-namespace UtilityTests
+namespace UnityTests
 {
   public class MapTextureHelperTests
   {

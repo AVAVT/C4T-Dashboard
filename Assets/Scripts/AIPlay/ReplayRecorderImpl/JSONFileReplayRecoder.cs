@@ -15,8 +15,9 @@ public class JSONFileReplayRecoder : IReplayRecorder
     recordData.playerNames = playerNames.ToDictionary();
   }
 
-  public void LogGameStart(GameConfig gameRule, MapInfo mapInfo)
+  public void LogGameStart(int gameLogicVersion, GameConfig gameRule, MapInfo mapInfo)
   {
+    recordData.gameLogicVersion = gameLogicVersion;
     recordData.gameRule = gameRule;
     recordData.mapInfo = SaveDataHelper.SaveMapInfoFrom(mapInfo);
     recordData.turnActions = new List<List<TurnAction>>();
