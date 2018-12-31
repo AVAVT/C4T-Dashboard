@@ -105,6 +105,11 @@
      <Compile Include="Assets\Scripts\GameLogic\Models\TeamRoleMap.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Models\Tile.cs" />
      <Compile Include="Assets\Scripts\GameLogic\Models\TurnAction.cs" />
+     <Compile Include="Assets\Scripts\Unity\Exception\NotInitializedException.cs" />
+     <Compile Include="Assets\Scripts\Unity\Exception\UnableToConnectException.cs" />
+     <Compile Include="Assets\Scripts\Unity\PlayGameScene\AIPlaySceneManager.cs" />
+     <Compile Include="Assets\Scripts\Unity\PlayGameScene\BotStatusContainer.cs" />
+     <Compile Include="Assets\Scripts\Unity\PlayGameScene\BotStatusIndicator.cs" />
      <Compile Include="Assets\Scripts\Unity\PlayGameScene\MapChooser.cs" />
      <Compile Include="Assets\Scripts\Unity\PlayGameScene\MapVisualizer.cs" />
      <Compile Include="Assets\Scripts\Unity\Utility\MapTextureHelper.cs" />
@@ -174,6 +179,12 @@
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
      <None Include="Assets\Fonts\Nunito\OFL.txt" />
+ <Reference Include="Unity.TextMeshPro">
+ <HintPath>E:/Unity Projects/C4T-Dashboard/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.TextMeshPro.Editor">
+ <HintPath>E:/Unity Projects/C4T-Dashboard/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.AIModule">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2018.3.0f2/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
  </Reference>

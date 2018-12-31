@@ -135,7 +135,7 @@ namespace AIPlayTests
 
       var controller = CreateTestController();
 
-      var task = controller.Handshake();
+      var task = controller.Handshake(0, 0);
       yield return new WaitUntil(() => task.IsCompleted);
 
       Assert.IsTrue(controller.IsReady);
@@ -147,7 +147,7 @@ namespace AIPlayTests
     {
       var controller = CreateTestController("/start", "/turn", "/namecrash");
 
-      var task = controller.Handshake();
+      var task = controller.Handshake(0, 0);
       yield return new WaitUntil(() => task.IsCompleted);
 
       Assert.IsFalse(controller.IsReady);

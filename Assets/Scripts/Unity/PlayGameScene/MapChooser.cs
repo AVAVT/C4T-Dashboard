@@ -9,12 +9,17 @@ public class MapChooser : MonoBehaviour
 {
   public string mapTexturePath = "MapTextures";
   public MapVisualizer mapVisualizer;
+  public GameObject buttonNext;
+  public GameObject buttonPrev;
 
   List<MapInfo> mapInfos = new List<MapInfo>();
-  int mapInfoIndex = 0;
+  int mapInfoIndex = -1;
 
   private IEnumerator Start()
   {
+    buttonNext.SetActive(true);
+    buttonPrev.SetActive(true);
+
     var path = Path.Combine(Application.streamingAssetsPath, mapTexturePath);
     var info = new DirectoryInfo(path);
     var filesInfo = info.GetFiles();
@@ -28,7 +33,19 @@ public class MapChooser : MonoBehaviour
       );
     }
 
-    if (mapInfos.Count > 0) VisualizeMap();
+    if (mapInfos.Count > 0)
+    {
+      mapInfoIndex = 0;
+      buttonNext.SetActive(true);
+      buttonPrev.SetActive(true);
+      VisualizeMap();
+    }
+  }
+
+  public MapInfo GetChosenMapInfo()
+  {
+    if (mapInfoIndex >= 0) return mapInfos[mapInfoIndex];
+    else throw new NotInitializedException("Map data not finished loading");
   }
 
   public void NextMap()

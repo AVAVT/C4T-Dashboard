@@ -14,7 +14,7 @@ app.post('/start', (req, res) => {
 
 app.post('/turn', (req, res) => {
   const data = JSON.parse(req.body.data);
-  console.log(`DoTurn test for team ${data.team} - role ${data.role}`);
+  console.log(`DoTurn ${data.gameState.turn} test for team ${data.team} - role ${data.role}`);
   res.send('DOWN');
 });
 
@@ -39,9 +39,10 @@ app.post('/namecrash', (req, res) => {
   res.sendStatus(500);
 });
 
-const port = process.env.port || 8686;
+const port = process.env.port || 8484;
 
 app.listen(port, err => {
   if (err) console.log(err);
   console.log("AI Server started at port " + port);
+  console.log("Exceptions & errors will be printed in this window.");
 });

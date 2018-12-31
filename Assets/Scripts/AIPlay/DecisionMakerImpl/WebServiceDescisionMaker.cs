@@ -88,9 +88,13 @@ public class WebServiceDecisionMaker : ICharacterDescisionMaker
     }
   }
 
-  public async Task Handshake()
+  public async Task Handshake(int team, int role)
   {
-    UnityWebRequest www = UnityWebRequest.Get($"{host}{namePath}");
+    WWWForm form = new WWWForm();
+    form.AddField("team", team);
+    form.AddField("role", role);
+
+    UnityWebRequest www = UnityWebRequest.Post($"{host}{namePath}", form);
     www.timeout = 1;
     await www.SendWebRequest();
 
