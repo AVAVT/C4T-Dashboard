@@ -58,54 +58,69 @@ public class GameLogic
   /// <summary>Play a full game from beginning to end with provided recorder</summary>
   public async Task PlayGame(IReplayRecorder recorder = null)
   {
-    await DoStart(recorder);
-    serverGameState.turn++;
-    while (serverGameState.turn < gameRule.gameLength)
+    try
     {
-      await PlayNextTurn(recorder);
-    }
+      await DoStart(recorder);
+      while (serverGameState.turn < gameRule.gameLength)
+      {
+        await PlayNextTurn(recorder);
+      }
 
-    DoEnd(recorder);
+      DoEnd(recorder);
+
+      return;
+    }
+    catch (System.Exception e)
+    {
+      throw e;
+    }
   }
 
   async Task DoStart(IReplayRecorder recorder)
   {
-    foreach (var team in characterControllers.GetTeams())
+    try
     {
-      GameState teamGameState = serverGameState.GameStateForTeam(team, gameRule);
-
-      foreach (var controller in characterControllers.GetItemsBy(team).Values)
+      foreach (var team in characterControllers.GetTeams())
       {
-        await controller.DoStart(teamGameState, gameRule);
+        GameState teamGameState = serverGameState.GameStateForTeam(team, gameRule);
+
+        foreach (var controller in characterControllers.GetItemsBy(team).Values)
+        {
+          await controller.DoStart(teamGameState, gameRule);
+        }
       }
+      recorder?.LogGameStart(version, gameRule, mapInfo);
     }
-    recorder?.LogGameStart(version, gameRule, mapInfo);
+    catch (System.Exception e) { throw e; }
   }
 
   async Task PlayNextTurn(IReplayRecorder recorder)
   {
-    List<TurnAction> actions = new List<TurnAction>();
-
-    foreach (var team in characterControllers.GetTeams())
+    try
     {
-      var teamGameState = serverGameState.GameStateForTeam(team, gameRule);
+      List<TurnAction> actions = new List<TurnAction>();
 
-      foreach (var controller in characterControllers.GetItemsBy(team).Values)
+      foreach (var team in characterControllers.GetTeams())
       {
-        var result = await controller.DoTurn(teamGameState, gameRule);
-        actions.Add(new TurnAction(
-          controller.Character.team,
-          controller.Character.role,
-          result,
-          controller.IsTimedOut,
-          controller.IsCrashed
-        ));
-      }
-    }
+        var teamGameState = serverGameState.GameStateForTeam(team, gameRule);
 
-    ExecuteTurn(actions);
-    recorder?.LogTurn(serverGameState, actions);
-    serverGameState.turn++;
+        foreach (var controller in characterControllers.GetItemsBy(team).Values)
+        {
+          var result = await controller.DoTurn(teamGameState, gameRule);
+          actions.Add(new TurnAction(
+            controller.Character.team,
+            controller.Character.role,
+            result,
+            controller.IsTimedOut,
+            controller.IsCrashed
+          ));
+        }
+      }
+
+      ExecuteTurn(actions);
+      recorder?.LogTurn(serverGameState, actions);
+    }
+    catch (System.Exception e) { throw e; }
   }
 
   /// <summary>Progress the game state with given actions</summary>
@@ -119,6 +134,7 @@ public class GameLogic
     DoGetPoint(serverGameState);
     DoDestroyPlant(serverGameState);
     DoGrowPlant(serverGameState);
+    serverGameState.turn++;
   }
 
   void DoEnd(IReplayRecorder recorder)

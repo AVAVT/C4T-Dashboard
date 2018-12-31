@@ -28,6 +28,35 @@ namespace AIPlayTests
     }
 
     [UnityTest]
+    [Timeout(100000000)]
+    public IEnumerator BruteCallTest()
+    {
+      Texture2D texture = null;
+      yield return LoadTextMapTexture(result => texture = result);
+      var mapInfo = MapTextureHelper.MapInfoFromTexture2D(texture);
+      var gameConfig = GameConfig.DefaultGameRule();
+      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
+      var controller = new WebServiceDecisionMaker("http://localhost:8686");
+      controller.Character = new Character(0, 0, Team.Red, Role.Harvester);
+
+      int i = 0;
+      var gameState = gameLogic.GetGameStateSnapShot().GameStateForTeam(Team.Red, gameConfig);
+      while (i < 1000)
+      {
+        i++;
+        gameState.turn = i;
+        var task = controller.DoTurn(gameState, gameConfig);
+        yield return new WaitUntil(() => task.IsCompleted);
+        if (task.IsCanceled || task.IsFaulted)
+        {
+          Debug.LogError(task.Exception);
+          break;
+        }
+      }
+      Assert.AreEqual(i, 1000);
+    }
+
+    [UnityTest]
     public IEnumerator DoStart_Successfully()
     {
       Texture2D texture = null;

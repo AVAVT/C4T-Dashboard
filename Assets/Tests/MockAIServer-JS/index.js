@@ -14,7 +14,7 @@ app.post('/start', (req, res) => {
 
 app.post('/turn', (req, res) => {
   const data = JSON.parse(req.body.data);
-  console.log(`DoTurn test for team ${data.team} - role ${data.role}`);
+  console.log(`DoTurn test for turn ${data.gameState.turn} team ${data.team} - role ${data.role}`);
   res.send('DOWN');
 });
 

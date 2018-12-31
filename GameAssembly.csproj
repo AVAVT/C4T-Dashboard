@@ -84,7 +84,6 @@
      <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\Editor\VectorIntPropertyResolvers.cs" />
      <Compile Include="Assets\Plugins\Sirenix\Odin Inspector\Scripts\VectorIntFormatters.cs" />
      <Compile Include="Assets\Scripts\AIPlay\DecisionMakerImpl\WebServiceDescisionMaker.cs" />
-     <Compile Include="Assets\Scripts\AIPlay\Extension\UnityWebRequestAwaiter.cs" />
      <Compile Include="Assets\Scripts\AIPlay\Model\PlayRecordData.cs" />
      <Compile Include="Assets\Scripts\AIPlay\Model\SaveGameState.cs" />
      <Compile Include="Assets\Scripts\AIPlay\Model\SaveMapInfo.cs" />

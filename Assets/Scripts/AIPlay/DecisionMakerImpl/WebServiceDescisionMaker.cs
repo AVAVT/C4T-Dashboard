@@ -37,75 +37,95 @@ public class WebServiceDecisionMaker : ICharacterDescisionMaker
 
   public async Task DoStart(GameState gameState, GameConfig gameRule)
   {
-    WWWForm form = new WWWForm();
-    form.AddField("data", JsonConvert.SerializeObject(new WebServiceTurnData()
+    try
     {
-      gameRule = gameRule,
-      gameState = gameState,
-      team = (int)character.team,
-      role = (int)character.role
-    }));
+      WWWForm form = new WWWForm();
+      form.AddField("data", JsonConvert.SerializeObject(new WebServiceTurnData()
+      {
+        gameRule = gameRule,
+        gameState = gameState,
+        team = (int)character.team,
+        role = (int)character.role
+      }));
 
-    UnityWebRequest www = UnityWebRequest.Post($"{host}{startPath}", form);
-    www.timeout = 1;
-    await www.SendWebRequest();
+      UnityWebRequest www = UnityWebRequest.Post($"{host}{startPath}", form);
+      var asyncOp = www.SendWebRequest();
+      while (!asyncOp.isDone) await Task.Delay(1);
 
-    if (www.isNetworkError || www.isHttpError)
-    {
-      if (www.error.ToLower() == TIMEOUT_MESSAGE) isTimedOut = true;
-      else isCrashed = true;
-
-      Debug.Log(www.error);
+      if (www.isNetworkError || www.isHttpError)
+      {
+        isCrashed = true;
+        Debug.Log(www.error);
+      }
+      else
+      {
+        var result = www.downloadHandler.text;
+        if (result.ToLower() == TIMEOUT_MESSAGE) isTimedOut = true;
+      }
     }
+    catch (System.Exception e) { throw e; }
   }
 
   public async Task<string> DoTurn(GameState gameState, GameConfig gameRule)
   {
     if (isCrashed || isTimedOut) return Directions.STAY;
 
-    WWWForm form = new WWWForm();
-    form.AddField("data", JsonConvert.SerializeObject(new WebServiceTurnData()
+    try
     {
-      gameRule = gameRule,
-      gameState = gameState,
-      team = (int)character.team,
-      role = (int)character.role
-    }));
+      WWWForm form = new WWWForm();
+      form.AddField("data", JsonConvert.SerializeObject(new WebServiceTurnData()
+      {
+        gameRule = gameRule,
+        gameState = gameState,
+        team = (int)character.team,
+        role = (int)character.role
+      }));
 
-    UnityWebRequest www = UnityWebRequest.Post($"{host}{turnPath}", form);
-    www.timeout = 1;
-    await www.SendWebRequest();
+      UnityWebRequest www = UnityWebRequest.Post($"{host}{turnPath}", form);
+      var asyncOp = www.SendWebRequest();
+      while (!asyncOp.isDone) await Task.Delay(1);
 
-    if (www.isNetworkError || www.isHttpError)
-    {
-      if (www.error.ToLower() == TIMEOUT_MESSAGE) isTimedOut = true;
-      else isCrashed = true;
-      return Directions.STAY;
+      if (www.isNetworkError || www.isHttpError)
+      {
+        isCrashed = true;
+        return Directions.STAY;
+      }
+      else
+      {
+        var result = www.downloadHandler.text;
+        if (result.ToLower() == TIMEOUT_MESSAGE)
+        {
+          isTimedOut = true;
+          return Directions.STAY;
+        }
+        else return result;
+      }
     }
-    else
-    {
-      return www.downloadHandler.text;
-    }
+    catch (System.Exception e) { throw e; }
   }
 
   public async Task Handshake(int team, int role)
   {
-    WWWForm form = new WWWForm();
-    form.AddField("team", team);
-    form.AddField("role", role);
-
-    UnityWebRequest www = UnityWebRequest.Post($"{host}{namePath}", form);
-    www.timeout = 1;
-    await www.SendWebRequest();
-
-    if (www.isNetworkError || www.isHttpError)
+    try
     {
-      IsReady = false;
+      WWWForm form = new WWWForm();
+      form.AddField("team", team);
+      form.AddField("role", role);
+
+      UnityWebRequest www = UnityWebRequest.Post($"{host}{namePath}", form);
+      var asyncOp = www.SendWebRequest();
+      while (!asyncOp.isDone) await Task.Delay(1);
+
+      if (www.isNetworkError || www.isHttpError)
+      {
+        IsReady = false;
+      }
+      else
+      {
+        PlayerName = www.downloadHandler.text;
+        IsReady = true;
+      }
     }
-    else
-    {
-      PlayerName = www.downloadHandler.text;
-      IsReady = true;
-    }
+    catch (System.Exception e) { throw e; }
   }
 }
