@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 public class WebServiceDecisionMaker : ICharacterDescisionMaker
 {
   private static string TIMEOUT_MESSAGE = "request timeout";
+  public static string CANT_CONNECT_NAME = "CAN'T CONNECT TO SERVER";
   private Character character;
   public Character Character { get => character; set => character = value; }
 
@@ -30,7 +31,7 @@ public class WebServiceDecisionMaker : ICharacterDescisionMaker
     this.host = host;
     this.startPath = startPath;
     this.turnPath = turnPath;
-    this.PlayerName = "CAN'T CONNECT";
+    this.PlayerName = CANT_CONNECT_NAME;
     this.namePath = namePath;
     IsReady = false;
   }
@@ -54,7 +55,8 @@ public class WebServiceDecisionMaker : ICharacterDescisionMaker
 
       if (www.isNetworkError || www.isHttpError)
       {
-        isCrashed = true;
+        if (www.error == TIMEOUT_MESSAGE) isTimedOut = true;
+        else isCrashed = true;
         Debug.Log(www.error);
       }
       else
@@ -87,7 +89,8 @@ public class WebServiceDecisionMaker : ICharacterDescisionMaker
 
       if (www.isNetworkError || www.isHttpError)
       {
-        isCrashed = true;
+        if (www.error == TIMEOUT_MESSAGE) isTimedOut = true;
+        else isCrashed = true;
         return Directions.STAY;
       }
       else
@@ -119,7 +122,7 @@ public class WebServiceDecisionMaker : ICharacterDescisionMaker
       if (www.isNetworkError || www.isHttpError)
       {
         IsReady = false;
-        PlayerName = "CAN'T CONNECT";
+        PlayerName = CANT_CONNECT_NAME;
       }
       else
       {

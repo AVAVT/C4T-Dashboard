@@ -20,6 +20,7 @@ app.post('/turn', (req, res) => {
 
 app.post('/timeout', (req, res) => {
   const data = JSON.parse(req.body.data);
+  res.send("request timeout");
   console.log(`Timeout test for team ${data.team} - role ${data.role}`);
 });
 

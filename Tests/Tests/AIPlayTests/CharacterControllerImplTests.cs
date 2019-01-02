@@ -152,7 +152,7 @@ namespace AIPlayTests
       yield return new WaitUntil(() => task.IsCompleted);
 
       Assert.IsFalse(controller.IsReady);
-      Assert.AreEqual("UNKNOWN", controller.PlayerName);
+      Assert.AreEqual(WebServiceDecisionMaker.CANT_CONNECT_NAME, controller.PlayerName);
     }
 
     [UnityTest]
