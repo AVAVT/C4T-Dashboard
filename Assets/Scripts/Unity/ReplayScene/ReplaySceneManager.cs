@@ -18,14 +18,19 @@ public class ReplaySceneManager : MonoBehaviour
   public GameObject redTeamInfoPrefab;
   public GameObject blueTeamInfoPrefab;
 
+  public float baseAnimationDuration = 0.5f;
+  public List<float> speedTiers;
+  private int currentSpeedTier;
+
   private List<ServerGameState> serverGameStates = new List<ServerGameState>();
+  private List<List<TurnAction>> turnActions;
   private TeamRoleMap<ReplayPlayerInfoController> playerInfoControllers = new TeamRoleMap<ReplayPlayerInfoController>();
 
   private int currentTurn = -1;
   public int CurrentTurn
   {
     get { return currentTurn; }
-    set
+    private set
     {
       if (value >= 0 && value < serverGameStates.Count && currentTurn != value)
       {
@@ -34,6 +39,9 @@ public class ReplaySceneManager : MonoBehaviour
       }
     }
   }
+
+  private bool shouldAnimate = true;
+  private bool autoPlay = true;
 
   private void Start()
   {
@@ -46,27 +54,74 @@ public class ReplaySceneManager : MonoBehaviour
       );
       return;
     }
+    currentSpeedTier = speedTiers.Count / 2;
+    controlPanelController.UpdateSpeed(speedTiers[currentSpeedTier]);
 
     StartCoroutine(Initialize());
   }
+  public void PlayOrPause()
+  {
+    autoPlay = !autoPlay;
+    controlPanelController.UpdateAutoplayState(autoPlay);
+    if (autoPlay) NextTurn();
+  }
+
   public void NextTurn()
   {
+    shouldAnimate = true;
     CurrentTurn++;
   }
   public void PrevTurn()
   {
+    autoPlay = false;
+    shouldAnimate = false;
     CurrentTurn--;
   }
   public void GoToTurn(int turn)
   {
-    CurrentTurn = turn;
+    if (CurrentTurn != turn)
+    {
+      autoPlay = false;
+      shouldAnimate = false;
+      CurrentTurn = turn;
+    }
+  }
+
+  public void IncreaseSpeed()
+  {
+    currentSpeedTier = Mathf.Min(currentSpeedTier + 1, speedTiers.Count - 1);
+    controlPanelController.UpdateSpeed(speedTiers[currentSpeedTier]);
+  }
+  public void DecreaseSpeed()
+  {
+    currentSpeedTier = Mathf.Max(0, currentSpeedTier - 1);
+    controlPanelController.UpdateSpeed(speedTiers[currentSpeedTier]);
   }
 
   void VisualizeState()
   {
-    gameMapController.VisualizeState(serverGameStates[CurrentTurn]);
+    var currentGameState = serverGameStates[CurrentTurn];
+    if (shouldAnimate)
+    {
+      controlPanelController.UpdateAnimatingState(true);
+      gameMapController.AnimateState(
+        currentGameState,
+        turnActions[CurrentTurn - 1],
+        baseAnimationDuration / speedTiers[currentSpeedTier],
+        () =>
+        {
+          controlPanelController.UpdateAnimatingState(false);
+          if (autoPlay) NextTurn();
+        }
+      );
+    }
+    else
+    {
+      controlPanelController.UpdateAnimatingState(false);
+      gameMapController.VisualizeState(currentGameState);
+    }
     controlPanelController.UpdateTurn(CurrentTurn);
-    scoreDisplayController.VisualizeState(serverGameStates[CurrentTurn]);
+    scoreDisplayController.VisualizeState(currentGameState);
   }
 
   IEnumerator Initialize()
@@ -74,6 +129,7 @@ public class ReplaySceneManager : MonoBehaviour
     yield return null;
     var gameLogic = GameLogic.GameLogicForNewGame(recordData.gameRule, SaveDataHelper.MapInfoFrom(recordData.mapInfo));
     serverGameStates.Add(gameLogic.GetGameStateSnapShot());
+    turnActions = recordData.turnActions;
     foreach (var actions in recordData.turnActions)
     {
       gameLogic.ExecuteTurn(actions);
@@ -90,7 +146,8 @@ public class ReplaySceneManager : MonoBehaviour
     gameMapController.InitializeMap(serverGameStates[0]);
     gameMapController.VisualizeState(serverGameStates[0]);
     controlPanelController.Initialize(recordData.gameRule.gameLength);
-    CurrentTurn = 0;
+    GoToTurn(0);
     loadingCanvas.SetActive(false);
+    PlayOrPause();
   }
 }

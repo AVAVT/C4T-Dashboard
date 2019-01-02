@@ -11,6 +11,13 @@ public class ReplayControlPanelController : MonoBehaviour
   public Slider slider;
   public TMP_Text turnText;
   public TMP_Text gameLengthText;
+  public Button playButton;
+  public Button nextButton;
+  public Sprite playSprite;
+  public Sprite pauseSprite;
+  public TMP_Text speedText;
+  private bool isAutoplaying = false;
+  private bool isAnimating = false;
 
   public void Initialize(int gameLength)
   {
@@ -25,16 +32,51 @@ public class ReplayControlPanelController : MonoBehaviour
     slider.value = turn;
   }
 
+  public void UpdateAutoplayState(bool isAutoplaying)
+  {
+    this.isAutoplaying = isAutoplaying;
+    playButton.image.sprite = isAutoplaying ? pauseSprite : playSprite;
+    UpdateNextButtonState();
+  }
+
+  public void UpdateAnimatingState(bool isAnimating)
+  {
+    this.isAnimating = isAnimating;
+    UpdateNextButtonState();
+  }
+
+  void UpdateNextButtonState()
+  {
+    nextButton.interactable = !isAutoplaying && !isAnimating;
+  }
   public void OnSliderMoved(float value)
   {
-    replaySceneManager.CurrentTurn = (int)value;
+    replaySceneManager.GoToTurn((int)value);
   }
-  public void NextTurn()
+
+  public void OnPlayOrPauseClicked()
+  {
+    replaySceneManager.PlayOrPause();
+  }
+  public void OnNextClicked()
   {
     replaySceneManager.NextTurn();
   }
-  public void PrevTurn()
+  public void OnPrevClicked()
   {
     replaySceneManager.PrevTurn();
+  }
+
+  public void OnIncreaseSpeedClicked()
+  {
+    replaySceneManager.IncreaseSpeed();
+  }
+  public void OnDecreaseSpeedClicked()
+  {
+    replaySceneManager.DecreaseSpeed();
+  }
+  public void UpdateSpeed(float speed)
+  {
+    speedText.text = $"{speed.ToString()}x";
   }
 }

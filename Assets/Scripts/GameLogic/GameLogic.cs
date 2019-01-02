@@ -162,14 +162,17 @@ public class GameLogic
       if (!character.isScared)
         newPos += action.direction.ToDirectionVector();
       else
-        character.isScared = false;
-
-      character.x = Math.Max(Math.Min((int)newPos.X, mapInfo.tiles.Count - 1), 0);
-      character.y = Math.Max(Math.Min((int)newPos.Y, mapInfo.tiles[character.x].Count - 1), 0);
-
-      if (IsInImpassableTile(serverGameState, character))
       {
-        targetPoses.ReplaceWithItemFrom(serverGameState.characters, character.team, character.role);
+        action.actualDirection = Directions.STAY;
+        character.isScared = false;
+      }
+
+      character.x = (int)newPos.X;
+      character.y = (int)newPos.Y;
+
+      if (IsOutOfBounds(mapInfo, character) || IsInImpassableTile(serverGameState, character))
+      {
+        CancelActionForCharacter(targetPoses, actions, character.team, character.role);
       }
     }
 
@@ -177,17 +180,28 @@ public class GameLogic
     serverGameState.characters = targetPoses;
   }
 
+  bool IsOutOfBounds(MapInfo mapInfo, Character character)
+  {
+    return character.x < 0 || character.x > mapInfo.tiles.Count - 1 || character.y < 0 || character.y > mapInfo.tiles[character.x].Count - 1;
+  }
+
   void CancelMovementForCounterRolesSwapingPlaces(TeamRoleMap<Character> targetPoses, List<TurnAction> actions)
   {
     if (AreSwapingPlaces(targetPoses, Team.Red, Role.Worm, Team.Blue, Role.Planter))
-      targetPoses.ReplaceWithItemFrom(serverGameState.characters, Team.Red, Role.Worm);
+      CancelActionForCharacter(targetPoses, actions, Team.Red, Role.Worm);
     else if (AreSwapingPlaces(targetPoses, Team.Red, Role.Worm, Team.Blue, Role.Harvester))
-      targetPoses.ReplaceWithItemFrom(serverGameState.characters, Team.Blue, Role.Harvester);
+      CancelActionForCharacter(targetPoses, actions, Team.Blue, Role.Harvester);
 
     if (AreSwapingPlaces(targetPoses, Team.Blue, Role.Worm, Team.Red, Role.Planter))
-      targetPoses.ReplaceWithItemFrom(serverGameState.characters, Team.Blue, Role.Worm);
+      CancelActionForCharacter(targetPoses, actions, Team.Blue, Role.Worm);
     else if (AreSwapingPlaces(targetPoses, Team.Blue, Role.Worm, Team.Red, Role.Harvester))
-      targetPoses.ReplaceWithItemFrom(serverGameState.characters, Team.Red, Role.Harvester);
+      CancelActionForCharacter(targetPoses, actions, Team.Red, Role.Harvester);
+  }
+
+  void CancelActionForCharacter(TeamRoleMap<Character> targetPoses, List<TurnAction> actions, Team team, Role role)
+  {
+    targetPoses.ReplaceWithItemFrom(serverGameState.characters, team, role);
+    actions.Find(a => a.team == team && a.role == role).actualDirection = Directions.STAY;
   }
 
   bool AreSwapingPlaces(TeamRoleMap<Character> targetPoses, Team char1Team, Role char1Role, Team char2Team, Role char2Role)
@@ -211,6 +225,7 @@ public class GameLogic
         var wormNewPosition = mapInfo.startingPositions.GetItem(worm.team, worm.role);
         newWormState.x = (int)wormNewPosition.X;
         newWormState.y = (int)wormNewPosition.Y;
+        newWormState.isCaught = true;
         serverGameState.characters.SetItem(worm.team, worm.role, newWormState);
 
         newPlanterState.numWormCaught++;

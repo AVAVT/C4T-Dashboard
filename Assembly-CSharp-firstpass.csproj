@@ -358,6 +358,9 @@
  <Reference Include="Unity.Analytics.StandardEvents">
  <HintPath>/Users/AVAVT/Documents/Unity/C4T-Dashboard/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.StandardEvents.dll</HintPath>
  </Reference>
+ <Reference Include="DOTween">
+ <HintPath>/Users/AVAVT/Documents/Unity/C4T-Dashboard/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
+ </Reference>
  <Reference Include="mscorlib">
  <HintPath>/Applications/Unity/Hub/Editor/2018.3.0f2/Unity.app/Contents/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
  </Reference>

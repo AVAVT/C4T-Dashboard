@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class ReplayMapController : SerializedMonoBehaviour
 {
@@ -31,6 +33,7 @@ public class ReplayMapController : SerializedMonoBehaviour
   private List<List<Image>> boardObjects;
   private TeamRoleMap<ReplayCharacterController> characters;
 
+  Sequence currentAnimation;
   public void InitializeMap(ServerGameState gameState)
   {
     var mapWidth = gameState.map.Count;
@@ -79,8 +82,30 @@ public class ReplayMapController : SerializedMonoBehaviour
     }
   }
 
+  public void AnimateState(ServerGameState gameState, List<TurnAction> turnActions, float duration, Action OnAnimationComplete = null)
+  {
+    foreach (var characterData in gameState.characters)
+    {
+      characters
+        .GetItem(characterData.team, characterData.role)
+        .AnimateState(
+          characterData,
+          turnActions.Find(c => c.team == characterData.team && c.role == characterData.role),
+          duration
+      );
+    }
+
+    currentAnimation = DOTween.Sequence().AppendInterval(duration + 0.1f).AppendCallback(() =>
+    {
+      currentAnimation = null;
+      VisualizeState(gameState);
+      OnAnimationComplete?.Invoke();
+    });
+  }
+
   public void VisualizeState(ServerGameState gameState)
   {
+    currentAnimation?.Kill();
     for (int x = 0; x < gameState.map.Count; x++)
     {
       for (int y = 0; y < gameState.map[x].Count; y++)
