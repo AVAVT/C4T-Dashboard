@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -34,7 +35,9 @@ namespace AIPlayTests
         names
       );
 
-      var task = gameLogic.PlayGame(testRecorder);
+      var tokenSource = new CancellationTokenSource();
+      var ct = tokenSource.Token;
+      var task = gameLogic.PlayGame(ct, testRecorder);
       yield return new WaitUntil(() => task.IsCompleted);
       Assert.IsFalse(task.IsFaulted);
       if (task.IsFaulted) Debug.Log(task.Exception);
@@ -54,7 +57,9 @@ namespace AIPlayTests
         new TeamRoleMap<string>()
       );
 
-      var task = gameLogic.PlayGame(testRecorder);
+      var tokenSource = new CancellationTokenSource();
+      var ct = tokenSource.Token;
+      var task = gameLogic.PlayGame(ct, testRecorder);
       yield return new WaitUntil(() => task.IsCompleted);
       Assert.DoesNotThrow(() =>
       {

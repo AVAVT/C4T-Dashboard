@@ -8,6 +8,9 @@ public class JSONFileReplayRecoder : IReplayRecorder
   PlayRecordData recordData;
   string exportPath;
   public string fileName { get; private set; }
+  public Action<int, GameConfig, MapInfo> OnStart;
+  public Action<ServerGameState, List<TurnAction>> OnTurn;
+  public Action<ServerGameState> OnEnd;
   public JSONFileReplayRecoder(string exportPath, TeamRoleMap<string> playerNames)
   {
     this.exportPath = exportPath;
@@ -21,6 +24,7 @@ public class JSONFileReplayRecoder : IReplayRecorder
     recordData.gameRule = gameRule;
     recordData.mapInfo = SaveDataHelper.SaveMapInfoFrom(mapInfo);
     recordData.turnActions = new List<List<TurnAction>>();
+    OnStart?.Invoke(gameLogicVersion, gameRule, mapInfo);
   }
 
   public void LogTurn(ServerGameState serverGameState, List<TurnAction> actions)
@@ -28,6 +32,8 @@ public class JSONFileReplayRecoder : IReplayRecorder
     var turnIndex = serverGameState.turn - 1;
     if (turnIndex < recordData.turnActions.Count) recordData.turnActions[turnIndex] = actions;
     else recordData.turnActions.Add(actions);
+
+    OnTurn?.Invoke(serverGameState, actions);
   }
 
   public void LogEndGame(ServerGameState serverGameState)
@@ -39,5 +45,7 @@ public class JSONFileReplayRecoder : IReplayRecorder
     System.IO.FileInfo file = new System.IO.FileInfo(Path.Combine(exportPath, fileName));
     file.Directory.Create();
     System.IO.File.WriteAllText(file.FullName, jsonString);
+
+    OnEnd?.Invoke(serverGameState);
   }
 }

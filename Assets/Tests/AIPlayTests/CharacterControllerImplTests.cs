@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -25,35 +26,6 @@ namespace AIPlayTests
     public void StopMockServer()
     {
       process.Kill();
-    }
-
-    [UnityTest]
-    [Timeout(100000000)]
-    public IEnumerator BruteCallTest()
-    {
-      Texture2D texture = null;
-      yield return LoadTextMapTexture(result => texture = result);
-      var mapInfo = MapTextureHelper.MapInfoFromTexture2D(texture);
-      var gameConfig = GameConfig.DefaultGameRule();
-      var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
-      var controller = new WebServiceDecisionMaker("http://localhost:8686");
-      controller.Character = new Character(0, 0, Team.Red, Role.Harvester);
-
-      int i = 0;
-      var gameState = gameLogic.GetGameStateSnapShot().GameStateForTeam(Team.Red, gameConfig);
-      while (i < 1000)
-      {
-        i++;
-        gameState.turn = i;
-        var task = controller.DoTurn(gameState, gameConfig);
-        yield return new WaitUntil(() => task.IsCompleted);
-        if (task.IsCanceled || task.IsFaulted)
-        {
-          Debug.LogError(task.Exception);
-          break;
-        }
-      }
-      Assert.AreEqual(i, 1000);
     }
 
     [UnityTest]
@@ -214,7 +186,9 @@ namespace AIPlayTests
       gameLogic.BindDecisionMakers(controllerMap);
       var mockRecorder = new MockRecorder();
 
-      var task = gameLogic.PlayGame(mockRecorder);
+      var tokenSource = new CancellationTokenSource();
+      var ct = tokenSource.Token;
+      var task = gameLogic.PlayGame(ct, mockRecorder);
       yield return new WaitUntil(() => task.IsCompleted);
       Assert.AreEqual(gameConfig.gameLength, mockRecorder.turnNumber);
     }

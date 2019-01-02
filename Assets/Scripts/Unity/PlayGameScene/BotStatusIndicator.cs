@@ -25,6 +25,8 @@ public class BotStatusIndicator : SerializedMonoBehaviour
     this.team = team;
     this.role = role;
     statusIcon.sprite = statusErrSprite;
+    statusIcon.color = Color.red;
+    roleText.text = role.ToString();
     roleIcon.sprite = roleSprites[team][role];
     if ((int)role % 2 > 0) GetComponent<Image>().enabled = true;
   }
@@ -37,12 +39,14 @@ public class BotStatusIndicator : SerializedMonoBehaviour
     if (decisionMaker.IsReady)
     {
       statusIcon.sprite = statusOkSprite;
+      statusIcon.color = Color.green;
       nameText.text = decisionMaker.PlayerName;
       return decisionMaker.PlayerName;
     }
     else
     {
       statusIcon.sprite = statusErrSprite;
+      statusIcon.color = Color.red;
       nameText.text = decisionMaker.PlayerName;
       return null;
     }

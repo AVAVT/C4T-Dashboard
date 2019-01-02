@@ -30,7 +30,7 @@ public class WebServiceDecisionMaker : ICharacterDescisionMaker
     this.host = host;
     this.startPath = startPath;
     this.turnPath = turnPath;
-    this.PlayerName = "UNKNOWN";
+    this.PlayerName = "CAN'T CONNECT";
     this.namePath = namePath;
     IsReady = false;
   }
@@ -119,6 +119,7 @@ public class WebServiceDecisionMaker : ICharacterDescisionMaker
       if (www.isNetworkError || www.isHttpError)
       {
         IsReady = false;
+        PlayerName = "CAN'T CONNECT";
       }
       else
       {

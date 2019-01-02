@@ -56,12 +56,12 @@ public class GameLogic
   }
 
   /// <summary>Play a full game from beginning to end with provided recorder</summary>
-  public async Task PlayGame(IReplayRecorder recorder = null)
+  public async Task PlayGame(CancellationToken cancellationToken, IReplayRecorder recorder = null)
   {
     try
     {
       await DoStart(recorder);
-      while (serverGameState.turn < gameRule.gameLength)
+      while (serverGameState.turn < gameRule.gameLength && !cancellationToken.IsCancellationRequested)
       {
         await PlayNextTurn(recorder);
       }
