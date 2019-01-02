@@ -131,10 +131,10 @@ public class GameLogic
     DoCatchWorm(serverGameState);
     DoScareHarvester(serverGameState);
     DoPlantTree(serverGameState);
-    DoHarvest(serverGameState);
     DoGetPoint(serverGameState);
     DoDestroyPlant(serverGameState);
     DoGrowPlant(serverGameState);
+    DoHarvest(serverGameState);
     serverGameState.turn++;
   }
 
@@ -270,7 +270,7 @@ public class GameLogic
 
       if (IsTileRipeHarvestableFruit(currentTile, teamFruitType))
       {
-        currentTile.growState = 0;
+        currentTile.growState = 1;
         serverGameState.map[harvester.x][harvester.y] = currentTile;
 
         var harvestersSharingFruit = new List<Character>() { harvester.Clone() };

@@ -109,7 +109,9 @@
      <Compile Include="Assets\Scripts\Unity\ReplayScene\ReplayCharacterController.cs" />
      <Compile Include="Assets\Scripts\Unity\ReplayScene\ReplayControlPanelController.cs" />
      <Compile Include="Assets\Scripts\Unity\ReplayScene\ReplayMapController.cs" />
+     <Compile Include="Assets\Scripts\Unity\ReplayScene\ReplayPlayerInfoController.cs" />
      <Compile Include="Assets\Scripts\Unity\ReplayScene\ReplaySceneManager.cs" />
+     <Compile Include="Assets\Scripts\Unity\ReplayScene\ReplayScoreDisplayController.cs" />
      <Compile Include="Assets\Scripts\Unity\Utility\MapTextureHelper.cs" />
      <Compile Include="Assets\Scripts\Unity\Utility\NotificationController.cs" />
      <Compile Include="Assets\TKLibs\Approximation.cs" />

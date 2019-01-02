@@ -156,12 +156,32 @@ PrefabInstance:
     - target: {fileID: 5198574647521405126, guid: e85db337de8a9164297401ec2775bcd3,
         type: 3}
       propertyPath: m_isInputParsingRequired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5198574647521405126, guid: e85db337de8a9164297401ec2775bcd3,
         type: 3}
       propertyPath: m_textAlignment
       value: 4100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2115380224569204116, guid: e85db337de8a9164297401ec2775bcd3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2115380224569204116, guid: e85db337de8a9164297401ec2775bcd3,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2115380224569204116, guid: e85db337de8a9164297401ec2775bcd3,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2115380224569204116, guid: e85db337de8a9164297401ec2775bcd3,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e85db337de8a9164297401ec2775bcd3, type: 3}

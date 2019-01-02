@@ -11,11 +11,17 @@ public class ReplaySceneManager : MonoBehaviour
   public NotificationController notificationController;
   public ReplayMapController gameMapController;
   public ReplayControlPanelController controlPanelController;
+  public ReplayScoreDisplayController scoreDisplayController;
   public GameObject loadingCanvas;
+  public RectTransform redTeamInfoPanel;
+  public RectTransform blueTeamInfoPanel;
+  public GameObject redTeamInfoPrefab;
+  public GameObject blueTeamInfoPrefab;
 
   private List<ServerGameState> serverGameStates = new List<ServerGameState>();
+  private TeamRoleMap<ReplayPlayerInfoController> playerInfoControllers = new TeamRoleMap<ReplayPlayerInfoController>();
 
-  private int currentTurn = 0;
+  private int currentTurn = -1;
   public int CurrentTurn
   {
     get { return currentTurn; }
@@ -24,8 +30,7 @@ public class ReplaySceneManager : MonoBehaviour
       if (value >= 0 && value < serverGameStates.Count && currentTurn != value)
       {
         currentTurn = value;
-        UpdateMapVisual();
-        controlPanelController.UpdateTurn(value);
+        VisualizeState();
       }
     }
   }
@@ -46,20 +51,22 @@ public class ReplaySceneManager : MonoBehaviour
   }
   public void NextTurn()
   {
-    if (CurrentTurn < serverGameStates.Count - 1) CurrentTurn++;
+    CurrentTurn++;
   }
   public void PrevTurn()
   {
-    if (CurrentTurn > 0) CurrentTurn--;
+    CurrentTurn--;
   }
   public void GoToTurn(int turn)
   {
     CurrentTurn = turn;
   }
 
-  void UpdateMapVisual()
+  void VisualizeState()
   {
     gameMapController.VisualizeState(serverGameStates[CurrentTurn]);
+    controlPanelController.UpdateTurn(CurrentTurn);
+    scoreDisplayController.VisualizeState(serverGameStates[CurrentTurn]);
   }
 
   IEnumerator Initialize()
@@ -72,9 +79,18 @@ public class ReplaySceneManager : MonoBehaviour
       gameLogic.ExecuteTurn(actions);
       serverGameStates.Add(gameLogic.GetGameStateSnapShot());
     }
+    foreach (var character in serverGameStates[0].characters)
+    {
+      var team = character.team;
+      var role = character.role;
+      var playerInfo = (team == Team.Red ? Instantiate(redTeamInfoPrefab, redTeamInfoPanel) : Instantiate(blueTeamInfoPrefab, blueTeamInfoPanel)).GetComponent<ReplayPlayerInfoController>();
+      playerInfoControllers.SetItem(team, role, playerInfo);
+      playerInfo.Initialize(team, role, recordData.playerNames[team][role]);
+    }
     gameMapController.InitializeMap(serverGameStates[0]);
     gameMapController.VisualizeState(serverGameStates[0]);
     controlPanelController.Initialize(recordData.gameRule.gameLength);
+    CurrentTurn = 0;
     loadingCanvas.SetActive(false);
   }
 }
