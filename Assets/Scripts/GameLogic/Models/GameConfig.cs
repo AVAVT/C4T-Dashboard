@@ -4,14 +4,14 @@ using System.Numerics;
 [System.Serializable]
 public class GameConfig
 {
-  public readonly int sightDistance;
-  public readonly int gameLength;
-  public readonly int plantFruitTime;
-  public readonly int wildberryFruitTime;
-  public readonly int harvesterMaxCapacity;
-  public readonly Dictionary<TileType, int> fruitScoreValues = new Dictionary<TileType, int>();
-  public readonly List<Team> availableTeams;
-  public readonly List<Role> availableRoles;
+  public int sightDistance;
+  public int gameLength;
+  public int plantFruitTime;
+  public int wildberryFruitTime;
+  public int harvesterMaxCapacity;
+  public Dictionary<TileType, int> fruitScoreValues = new Dictionary<TileType, int>();
+  public List<Team> availableTeams;
+  public List<Role> availableRoles;
 
   public static GameConfig DefaultGameRule()
   {
@@ -28,7 +28,9 @@ public class GameConfig
     );
   }
 
-  public GameConfig() { /* Needed for JSON.NET deserialization */ }
+  public GameConfig()
+  {
+  }
 
   public GameConfig(int sightDistance, int gameLength, int plantFruitTime, int wildberryFruitTime, int fruitHarvestValue, int wildberryHarvestValue, int harvesterMaxCapacity, List<Team> availableTeams, List<Role> availableRoles)
   {

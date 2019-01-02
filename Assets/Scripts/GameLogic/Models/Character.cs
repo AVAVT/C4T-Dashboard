@@ -9,7 +9,7 @@ public class Character
   public Team team;
   public Role role;
   public bool isScared;
-  public bool cancelAction;
+  public bool isCaught;
   public int fruitCarrying;
   public int numTreePlanted, numWormCaught, numFruitHarvested, numFruitDelivered, numTreeDestroyed, numHarvesterScared;
 
@@ -21,7 +21,6 @@ public class Character
     this.y = y;
     this.team = team;
     this.isScared = false;
-    this.cancelAction = false;
 
     fruitCarrying = numTreePlanted = numWormCaught = numFruitHarvested = numFruitDelivered = numTreeDestroyed = numHarvesterScared;
   }

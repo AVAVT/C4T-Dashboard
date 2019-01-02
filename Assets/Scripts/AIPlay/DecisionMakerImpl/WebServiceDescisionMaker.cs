@@ -101,7 +101,20 @@ public class WebServiceDecisionMaker : ICharacterDescisionMaker
           isTimedOut = true;
           return Directions.STAY;
         }
-        else return result;
+        else
+        {
+          try
+          {
+            result.ToDirectionVector();
+            return result;
+          }
+          catch (System.Exception e)
+          {
+            Debug.LogError(e);
+            isCrashed = true;
+            return Directions.STAY;
+          }
+        }
       }
     }
     catch (System.Exception e) { throw e; }

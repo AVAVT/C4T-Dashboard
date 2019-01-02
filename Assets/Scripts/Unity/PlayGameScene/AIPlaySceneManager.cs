@@ -92,7 +92,12 @@ public class AIPlaySceneManager : MonoBehaviour
       await gameLogic.PlayGame(ct, recorder);
       currentGameCancellationToken.Dispose();
       notificationController.ShowNotification(
-        $"Game finished. Log file saved with name\n{recorder.fileName}\n"
+        $"Game finished. Log file saved with name\n{recorder.fileName}\n",
+        () =>
+        {
+          ReplaySceneManager.recordData = recorder.RecordData;
+          SceneManager.LoadScene("ReplayScene");
+        }
       );
     }
     catch (NotInitializedException e)

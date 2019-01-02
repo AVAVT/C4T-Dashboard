@@ -33,8 +33,9 @@ public class MenuSceneManager : MonoBehaviour
           ReplaySceneManager.recordData = data;
           SceneManager.LoadScene("ReplayScene");
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
+          Debug.Log(e);
           notificationController.ShowNotification("That is not a valid game log file!", 2);
         }
       }

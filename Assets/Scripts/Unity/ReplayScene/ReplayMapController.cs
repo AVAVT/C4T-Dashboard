@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameMapController : SerializedMonoBehaviour
+public class ReplayMapController : SerializedMonoBehaviour
 {
   public Vector2 bounds;
   public float paddingWidth;
@@ -18,17 +18,18 @@ public class GameMapController : SerializedMonoBehaviour
   public Sprite redRockSprite;
   public Sprite blueRockSprite;
   public Sprite waterSprite;
-
   public List<Sprite> wildBerrySprites;
   public List<Sprite> tomatoSprites;
   public List<Sprite> pumpkinSprites;
+
+  public GameObject characterPrefab;
   public Dictionary<Team, Dictionary<Role, Sprite>> roleSprites;
 
   public RectTransform boardRectTransform;
   public GridLayoutGroup boardGridLayoutGroup;
 
-  private List<List<Image>> tiles;
-
+  private List<List<Image>> boardObjects;
+  private TeamRoleMap<ReplayCharacterController> characters;
 
   public void InitializeMap(ServerGameState gameState)
   {
@@ -44,14 +45,14 @@ public class GameMapController : SerializedMonoBehaviour
 
     boardRectTransform.DestroyAllChildren();
 
-    tiles = new List<List<Image>>();
+    boardObjects = new List<List<Image>>();
     for (int x = 0; x < mapWidth; x++)
     {
-      tiles.Add(new List<Image>());
+      boardObjects.Add(new List<Image>());
 
       for (int y = 0; y < mapHeight; y++)
       {
-        var newTileTransform = Instantiate(tilePrefab, transform).GetComponent<RectTransform>();
+        var newTileTransform = Instantiate(tilePrefab, boardRectTransform).GetComponent<RectTransform>();
         newTileTransform.GetComponent<Image>().color = x % 2 == y % 2 ? lightTileColor : darkTileColor;
 
         var itemTransform = Instantiate(groundObjectPrefab, Vector3.zero, Quaternion.identity, newTileTransform).GetComponent<RectTransform>();
@@ -60,22 +61,32 @@ public class GameMapController : SerializedMonoBehaviour
         var image = itemTransform.GetComponent<Image>();
         image.sprite = null;
         image.color = Color.clear;
-        tiles[x].Add(image);
-
+        boardObjects[x].Add(image);
       }
+    }
+
+    characters = new TeamRoleMap<ReplayCharacterController>();
+    var characterOffset = new Vector2(boardGridLayoutGroup.padding.left, -boardGridLayoutGroup.padding.top);
+    foreach (var characterData in gameState.characters)
+    {
+      var characterController = Instantiate(characterPrefab, transform).GetComponent<ReplayCharacterController>();
+      characters.SetItem(characterData.team, characterData.role, characterController);
+      characterController.Initialize(
+        roleSprites[characterData.team][characterData.role],
+        tileSize,
+        characterOffset
+      );
     }
   }
 
   public void VisualizeState(ServerGameState gameState)
   {
-    tiles = new List<List<Image>>();
     for (int x = 0; x < gameState.map.Count; x++)
     {
-      tiles.Add(new List<Image>());
-
       for (int y = 0; y < gameState.map[x].Count; y++)
       {
-        var image = tiles[x][y];
+        var image = boardObjects[x][y];
+
         var tileType = gameState.map[x][y].type;
         var growState = gameState.map[x][y].growState;
 
@@ -94,9 +105,14 @@ public class GameMapController : SerializedMonoBehaviour
         else if (tileType == TileType.RED_ROCK) image.sprite = redRockSprite;
         else if (tileType == TileType.BLUE_ROCK) image.sprite = blueRockSprite;
         else if (tileType == TileType.IMPASSABLE) image.sprite = waterSprite;
-
-        image.SetNativeSize();
       }
+    }
+
+    foreach (var characterData in gameState.characters)
+    {
+      characters
+        .GetItem(characterData.team, characterData.role)
+        .UpdateState(characterData);
     }
   }
 }

@@ -126,6 +126,7 @@ public class GameLogic
   /// <summary>Progress the game state with given actions</summary>
   public void ExecuteTurn(List<TurnAction> actions)
   {
+    ResetWormCaughtState();
     DoMove(actions);
     DoCatchWorm(serverGameState);
     DoScareHarvester(serverGameState);
@@ -140,6 +141,14 @@ public class GameLogic
   void DoEnd(IReplayRecorder recorder)
   {
     recorder?.LogEndGame(serverGameState);
+  }
+
+  void ResetWormCaughtState()
+  {
+    foreach (var worm in serverGameState.characters.GetItemsBy(Role.Worm))
+    {
+      worm.isCaught = false;
+    }
   }
 
   void DoMove(List<TurnAction> actions)
