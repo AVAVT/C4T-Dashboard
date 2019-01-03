@@ -59,6 +59,11 @@ public class ReplaySceneManager : MonoBehaviour
 
     StartCoroutine(Initialize());
   }
+
+  public void OnExitClick()
+  {
+    SceneManager.LoadScene("MenuScene");
+  }
   public void PlayOrPause()
   {
     autoPlay = !autoPlay;
