@@ -95,12 +95,12 @@ public class ReplayMapController : SerializedMonoBehaviour
       );
     }
 
-    currentAnimation = DOTween.Sequence().AppendInterval(duration + 0.1f).AppendCallback(() =>
-    {
-      currentAnimation = null;
-      VisualizeState(gameState);
-      OnAnimationComplete?.Invoke();
-    });
+    currentAnimation = DOTween.Sequence().AppendInterval(duration * 1.2f).AppendCallback(() =>
+     {
+       currentAnimation = null;
+       VisualizeState(gameState);
+       OnAnimationComplete?.Invoke();
+     });
   }
 
   public void VisualizeState(ServerGameState gameState)

@@ -106,12 +106,7 @@ public class WebServiceDecisionMaker : ICharacterDescisionMaker
           try
           {
             result.ToDirectionVector();
-            var num = Random.Range(0, 4);
-            if (num == 0) return Directions.UP;
-            else if (num == 1) return Directions.DOWN;
-            else if (num == 2) return Directions.LEFT;
-            else return Directions.RIGHT;
-            // return result;
+            return result;
           }
           catch (System.Exception e)
           {

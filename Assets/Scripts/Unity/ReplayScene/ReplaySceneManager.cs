@@ -101,6 +101,7 @@ public class ReplaySceneManager : MonoBehaviour
   void VisualizeState()
   {
     var currentGameState = serverGameStates[CurrentTurn];
+    controlPanelController.UpdateAutoplayState(autoPlay);
     if (shouldAnimate)
     {
       controlPanelController.UpdateAnimatingState(true);
@@ -122,6 +123,17 @@ public class ReplaySceneManager : MonoBehaviour
     }
     controlPanelController.UpdateTurn(CurrentTurn);
     scoreDisplayController.VisualizeState(currentGameState);
+
+    var playerInfoControllersDict = playerInfoControllers.ToDictionary();
+    foreach (var team in playerInfoControllersDict.Keys)
+    {
+      foreach (var kvp in playerInfoControllersDict[team])
+        kvp.Value.UpdateState(
+          CurrentTurn > 0
+          ? turnActions[CurrentTurn - 1].Find(a => a.team == team && a.role == kvp.Key)
+          : null
+        );
+    }
   }
 
   IEnumerator Initialize()

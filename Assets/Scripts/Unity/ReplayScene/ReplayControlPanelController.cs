@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,9 +17,15 @@ public class ReplayControlPanelController : MonoBehaviour
   public Sprite playSprite;
   public Sprite pauseSprite;
   public TMP_Text speedText;
+  public Button collapseButton;
+  private RectTransform rectTransform;
   private bool isAutoplaying = false;
   private bool isAnimating = false;
 
+  private void Awake()
+  {
+    rectTransform = transform as RectTransform;
+  }
   public void Initialize(int gameLength)
   {
     slider.maxValue = gameLength;
@@ -78,5 +85,13 @@ public class ReplayControlPanelController : MonoBehaviour
   public void UpdateSpeed(float speed)
   {
     speedText.text = $"{speed.ToString()}x";
+  }
+
+  public void OnCollapseButtonClick()
+  {
+    float targetY = collapseButton.transform.localScale.y > 0 ? 0 : ((collapseButton.transform as RectTransform).sizeDelta.y - rectTransform.sizeDelta.y);
+    collapseButton.transform.localScale = Vector3.one.WithY(-collapseButton.transform.localScale.y);
+    collapseButton.interactable = false;
+    rectTransform.DOAnchorPosY(targetY, 0.3f).OnComplete(() => collapseButton.interactable = true);
   }
 }
