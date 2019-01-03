@@ -125,8 +125,11 @@ public class WebServiceDecisionMaker : ICharacterDescisionMaker
     try
     {
       WWWForm form = new WWWForm();
-      form.AddField("team", team);
-      form.AddField("role", role);
+      form.AddField("data", JsonConvert.SerializeObject(new WebServiceTurnData()
+      {
+        team = (int)team,
+        role = (int)role
+      }));
 
       UnityWebRequest www = UnityWebRequest.Post($"{host}{namePath}", form);
       var asyncOp = www.SendWebRequest();
