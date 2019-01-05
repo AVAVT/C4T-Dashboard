@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,8 @@ public class MapVisualizer : MonoBehaviour
   public Vector2 bounds;
   public float paddingWidth;
   public float paddingHeight;
+  public Sprite randomImage;
+  public Sprite mapBorderImage;
   public GameObject lightTilePrefab;
   public GameObject darkTilePrefab;
   public GameObject redBoxPrefab;
@@ -19,9 +22,11 @@ public class MapVisualizer : MonoBehaviour
 
   private RectTransform rectTransform;
   private GridLayoutGroup gridLayoutGroup;
+  private Image image;
 
   private void Start()
   {
+    image = GetComponent<Image>();
     rectTransform = transform as RectTransform;
     gridLayoutGroup = GetComponent<GridLayoutGroup>();
     GetComponent<Image>().enabled = false;
@@ -29,7 +34,25 @@ public class MapVisualizer : MonoBehaviour
 
   public void VisualizeMap(MapInfo mapInfo)
   {
-    GetComponent<Image>().enabled = true;
+    rectTransform.DestroyAllChildren();
+    image.enabled = true;
+
+    if (mapInfo == null) VisualizeIconRandom();
+    else VisualizeMapInfo(mapInfo);
+  }
+
+  void VisualizeIconRandom()
+  {
+    image.sprite = randomImage;
+    image.type = Image.Type.Simple;
+    image.SetNativeSize();
+  }
+
+  void VisualizeMapInfo(MapInfo mapInfo)
+  {
+    image.sprite = mapBorderImage;
+    image.type = Image.Type.Sliced;
+
     var mapWidth = mapInfo.tiles.Count;
     var mapHeight = mapInfo.tiles[0].Count;
     var tileSize = Mathf.Min(bounds.x / mapWidth, bounds.y / mapHeight);
@@ -39,8 +62,6 @@ public class MapVisualizer : MonoBehaviour
       mapHeight * tileSize + paddingHeight
     );
     gridLayoutGroup.cellSize = Vector2.one * tileSize;
-
-    rectTransform.DestroyAllChildren();
 
     for (int y = 0; y < mapHeight; y++)
     {

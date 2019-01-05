@@ -157,11 +157,26 @@ public class AIPlaySceneManager : MonoBehaviour
     if (string.IsNullOrEmpty(path) || !Directory.Exists(path)) OnCancelled?.Invoke();
     else
     {
-      PlayerPrefs.SetString(LOG_FILE_LOCATION_KEY, path);
+      try
+      {
+        System.IO.FileInfo file = new System.IO.FileInfo(Path.Combine(path, "DELETE_ME.txt"));
+        file.Directory.Create();
+        System.IO.File.WriteAllText(file.FullName, "DELETE ME!");
+        System.IO.File.Delete(file.FullName);
 
-      logFileLocationText.text = path;
+        PlayerPrefs.SetString(LOG_FILE_LOCATION_KEY, path);
 
-      OnSuccess?.Invoke(path);
+        logFileLocationText.text = path;
+
+        OnSuccess?.Invoke(path);
+      }
+      catch (System.UnauthorizedAccessException)
+      {
+        notificationController.ShowNotification(
+        "Write permission denied for chosen folder.\nPlease choose another location or try running the game with administrator priviledge.",
+          () => ChooseLogFileLocation(OnSuccess, OnCancelled)
+        );
+      }
     }
   }
 }
