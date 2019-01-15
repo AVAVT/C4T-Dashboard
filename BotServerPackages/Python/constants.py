@@ -7,34 +7,23 @@ valid_moves = [
 ]
 
 directions = {
-    "up": "UP",
-    "down": "DOWN",
-    "right": "RIGHT",
-    "left": "LEFT",
-    "stay": "STAY"
+    "UP": "UP",
+    "DOWN": "DOWN",
+    "RIGHT": "RIGHT",
+    "LEFT": "LEFT",
+    "STAY": "STAY"
 }
 
 teams = {
-    "red": "RED",
-    "blue": "BLUE"
+    "RED": 0,
+    "BLUE": 1
 }
-
-teams_arr = [
-    "RED",
-    "BLUE"
-]
 
 roles = {
-    "planter": "PLANTER",
-    "harvester": "HARVESTER",
-    "worm": "WORM"
+    "PLANTER": 0,
+    "HARVESTER": 1,
+    "WORM": "2
 }
-
-roles_arr = [
-    "PLANTER",
-    "HARVESTER",
-    "WORM"
-]
 
 tile_types = {
     "UNKNOWN": 0,
