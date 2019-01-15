@@ -2,7 +2,7 @@ import tornado.ioloop
 import tornado.web
 import random
 import json
-from constants import valid_moves, directions, teams_arr, roles_arr, tile_types
+from constants import valid_moves, directions, teams, roles, tile_types
 
 from Team1.Harvester.main import GardenBot as harvester1
 from Team1.Planter.main import GardenBot as planter1
@@ -17,16 +17,16 @@ if(coin_flip):
     bots = [
         [
             planter1(tile_types, directions,
-                     valid_moves, teams_arr, roles_arr),
+                     valid_moves, teams, roles),
             harvester1(tile_types, directions,
-                       valid_moves, teams_arr, roles_arr),
-            worm1(tile_types, directions, valid_moves, teams_arr, roles_arr)
+                       valid_moves, teams, roles),
+            worm1(tile_types, directions, valid_moves, teams, roles)
         ], [
             planter2(tile_types, directions,
-                     valid_moves, teams_arr, roles_arr),
+                     valid_moves, teams, roles),
             harvester2(tile_types, directions,
-                       valid_moves, teams_arr, roles_arr),
-            worm2(tile_types, directions, valid_moves, teams_arr, roles_arr)
+                       valid_moves, teams, roles),
+            worm2(tile_types, directions, valid_moves, teams, roles)
         ]
     ]
 
@@ -34,16 +34,16 @@ else:
     bots = [
         [
             planter2(tile_types, directions,
-                     valid_moves, teams_arr, roles_arr),
+                     valid_moves, teams, roles),
             harvester2(tile_types, directions,
-                       valid_moves, teams_arr, roles_arr),
-            worm2(tile_types, directions, valid_moves, teams_arr, roles_arr)
+                       valid_moves, teams, roles),
+            worm2(tile_types, directions, valid_moves, teams, roles)
         ], [
             planter1(tile_types, directions,
-                     valid_moves, teams_arr, roles_arr),
+                     valid_moves, teams, roles),
             harvester1(tile_types, directions,
-                       valid_moves, teams_arr, roles_arr),
-            worm1(tile_types, directions, valid_moves, teams_arr, roles_arr)
+                       valid_moves, teams, roles),
+            worm1(tile_types, directions, valid_moves, teams, roles)
         ]
     ]
 
@@ -59,7 +59,7 @@ class StartHandler(tornado.web.RequestHandler):
             self.write("OK")
         except Exception as e:
             print(
-                f"Exception occured in bot: {teams_arr[team]} {roles_arr[role]}")
+                f"Exception occured in bot: {teams[team]} {roles[role]}")
             print(e)
             self.set_status(500)
 
@@ -79,7 +79,7 @@ class TurnHandler(tornado.web.RequestHandler):
                     f"Bot returned '{result}', which is is not a valid move")
         except Exception as e:
             print(
-                f"Exception occured in bot: {teams_arr[team]} {roles_arr[role]}")
+                f"Exception occured in bot: {teams[team]} {roles[role]}")
             print(e)
             self.set_status(500)
 
@@ -94,7 +94,7 @@ class NameHandler(tornado.web.RequestHandler):
             self.write(name)
         except Exception as e:
             print(
-                f"Exception occured in bot: {teams_arr[team]} {roles_arr[role]}")
+                f"Exception occured in bot: {teams[team]} {roles[role]}")
             print(e)
             self.set_status(500)
 
