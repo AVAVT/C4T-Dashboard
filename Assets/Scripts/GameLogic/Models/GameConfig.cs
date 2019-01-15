@@ -18,11 +18,11 @@ public class GameConfig
     return new GameConfig(
       sightDistance: 2,
       gameLength: 500,
-      plantFruitTime: 5,
+      plantFruitTime: 10,
       wildberryFruitTime: 10,
       fruitHarvestValue: 1,
       wildberryHarvestValue: 2,
-      harvesterMaxCapacity: 5,
+      harvesterMaxCapacity: 10,
       availableTeams: new List<Team>() { Team.Red, Team.Blue },
       availableRoles: new List<Role>() { Role.Planter, Role.Harvester, Role.Worm }
     );

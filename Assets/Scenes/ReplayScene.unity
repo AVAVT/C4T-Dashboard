@@ -2310,26 +2310,36 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 21300000, guid: a01afa8bc88ac5f4996d164728a90cce, type: 3}
   - {fileID: 21300000, guid: a01afa8bc88ac5f4996d164728a90cce, type: 3}
+  - {fileID: 21300000, guid: a01afa8bc88ac5f4996d164728a90cce, type: 3}
   - {fileID: 21300000, guid: ff93a1e66b6e06d4cb07abf0043c1f7f, type: 3}
   - {fileID: 21300000, guid: ff93a1e66b6e06d4cb07abf0043c1f7f, type: 3}
   - {fileID: 21300000, guid: 08e99d10537599c48bd234659e661ffe, type: 3}
   - {fileID: 21300000, guid: 08e99d10537599c48bd234659e661ffe, type: 3}
   - {fileID: 21300000, guid: 40efa397c8b65d849b8dc7939eb4feb6, type: 3}
   - {fileID: 21300000, guid: 40efa397c8b65d849b8dc7939eb4feb6, type: 3}
-  - {fileID: 21300000, guid: 7864f8fb6be9b884ea85fbf9e797e132, type: 3}
   - {fileID: 21300000, guid: 7864f8fb6be9b884ea85fbf9e797e132, type: 3}
   tomatoSprites:
   - {fileID: 0}
   - {fileID: 21300000, guid: 1ad6beb5418a7fb40aba2e9f83adcfbb, type: 3}
+  - {fileID: 21300000, guid: 1ad6beb5418a7fb40aba2e9f83adcfbb, type: 3}
+  - {fileID: 21300000, guid: 1ad6beb5418a7fb40aba2e9f83adcfbb, type: 3}
+  - {fileID: 21300000, guid: e933fd427466c8a45b8b4f29075538f4, type: 3}
   - {fileID: 21300000, guid: e933fd427466c8a45b8b4f29075538f4, type: 3}
   - {fileID: 21300000, guid: da73aecf30933ca4e9b20c24e3b8f74c, type: 3}
+  - {fileID: 21300000, guid: da73aecf30933ca4e9b20c24e3b8f74c, type: 3}
+  - {fileID: 21300000, guid: 36dc3f7f4552f7d41a46ec2f32c1b172, type: 3}
   - {fileID: 21300000, guid: 36dc3f7f4552f7d41a46ec2f32c1b172, type: 3}
   - {fileID: 21300000, guid: ea8982f32724b47418e0817b08994447, type: 3}
   pumpkinSprites:
   - {fileID: 0}
   - {fileID: 21300000, guid: 9e439eabdb19d10428029edcd158015b, type: 3}
+  - {fileID: 21300000, guid: 9e439eabdb19d10428029edcd158015b, type: 3}
+  - {fileID: 21300000, guid: 9e439eabdb19d10428029edcd158015b, type: 3}
+  - {fileID: 21300000, guid: c549e26221d15cb419fb43cfcf8b2bc6, type: 3}
   - {fileID: 21300000, guid: c549e26221d15cb419fb43cfcf8b2bc6, type: 3}
   - {fileID: 21300000, guid: 2c7e992003b3f6d49a62829157c2de41, type: 3}
+  - {fileID: 21300000, guid: 2c7e992003b3f6d49a62829157c2de41, type: 3}
+  - {fileID: 21300000, guid: e45e8950ed621d74e9a44e28e51fe7be, type: 3}
   - {fileID: 21300000, guid: e45e8950ed621d74e9a44e28e51fe7be, type: 3}
   - {fileID: 21300000, guid: 28d718303a9605b449af09753b266058, type: 3}
   characterPrefab: {fileID: 525135832561849027, guid: 1f39ddf760070450bb308fb7b6ff3c75,
