@@ -36,15 +36,15 @@ roles_arr = [
     "WORM"
 ]
 
-tile_types = [
-  "UNKNOWN",
-  "IMPASSABLE",
-  "EMPTY",
-  "WILDBERRY",
-  "TOMATO",
-  "PUMPKIN",
-  "RED_BOX",
-  "BLUE_BOX",
-  "RED_ROCK",
-  "BLUE_ROCK"
-]
+tile_types = {
+    "UNKNOWN": 0,
+    "IMPASSABLE": 1,
+    "EMPTY": 2,
+    "WILDBERRY": 3,
+    "TOMATO": 4,
+    "PUMPKIN": 5,
+    "RED_BOX": 6,
+    "BLUE_BOX": 7,
+    "RED_ROCK": 8,
+    "BLUE_ROCK": 9
+}

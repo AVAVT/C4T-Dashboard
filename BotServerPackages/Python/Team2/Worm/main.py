@@ -3,6 +3,7 @@ import random
 
 class GardenBotBase():
     def __init__(self, tile_types, directions, valid_moves, teams, roles):
+        self.tile_types = tile_types
         self.directions = directions
         self.valid_moves = valid_moves
         self.teams = teams
