@@ -22,7 +22,7 @@ teams = {
 roles = {
     "PLANTER": 0,
     "HARVESTER": 1,
-    "WORM": "2
+    "WORM": 2
 }
 
 tile_types = {
