@@ -12,6 +12,7 @@ public class ReplaySceneManager : MonoBehaviour
   public ReplayMapController gameMapController;
   public ReplayControlPanelController controlPanelController;
   public ReplayScoreDisplayController scoreDisplayController;
+  public ReplayResultDisplayController resultDisplayController;
   public GameObject loadingCanvas;
   public RectTransform redTeamInfoPanel;
   public RectTransform blueTeamInfoPanel;
@@ -126,8 +127,25 @@ public class ReplaySceneManager : MonoBehaviour
       controlPanelController.UpdateAnimatingState(false);
       gameMapController.VisualizeState(currentGameState);
     }
+
     controlPanelController.UpdateTurn(CurrentTurn);
     scoreDisplayController.VisualizeState(currentGameState);
+
+    if (CurrentTurn == serverGameStates.Count - 1)
+    {
+      var turn = CurrentTurn;
+      var checkState = serverGameStates[turn];
+      while (turn > 0 && checkState.redScore == checkState.blueScore)
+      {
+        turn--;
+        checkState = serverGameStates[turn];
+      }
+      resultDisplayController.ShowDisplay(
+        checkState.blueScore < checkState.redScore,
+        baseAnimationDuration / speedTiers[currentSpeedTier]
+      );
+    }
+    else resultDisplayController.HideDisplay();
 
     var playerInfoControllersDict = playerInfoControllers.ToDictionary();
     foreach (var team in playerInfoControllersDict.Keys)
