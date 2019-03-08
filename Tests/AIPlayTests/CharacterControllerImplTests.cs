@@ -16,16 +16,27 @@ namespace AIPlayTests
     [OneTimeSetUp]
     public void SetupMockServer()
     {
-      process = new System.Diagnostics.Process();
-      process.StartInfo.FileName = "node.exe";
-      process.StartInfo.Arguments = $"\"{Application.dataPath}/Tests/MockAIServer-JS/index.js\"";
-      process.Start();
+      if (TestUtility.IsWindows())
+      {
+        process = new System.Diagnostics.Process();
+        process.StartInfo.FileName = "node.exe";
+        process.StartInfo.Arguments = $"\"{Application.dataPath}/Tests/MockAIServer-JS/index.js\"";
+        process.Start();
+      }
+      else
+      {
+        Debug.LogWarning("!!WARNING!! OS is not Windows. Test server will need to be started manually. It is localed at:");
+        Debug.LogWarning($"\"{Application.dataPath}/Tests/MockAIServer-JS/index.js\"");
+      }
     }
 
     [OneTimeTearDown]
     public void StopMockServer()
     {
-      process.Kill();
+      if (TestUtility.IsWindows())
+      {
+        process.Kill();
+      }
     }
 
     [UnityTest]

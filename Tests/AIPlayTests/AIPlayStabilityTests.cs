@@ -13,21 +13,34 @@ namespace AIPlayTests
 {
   public class AIPlayStabilityTests
   {
+    static readonly string TEST_SERVER_URI = "http://localhost:8686";
     System.Diagnostics.Process process;
 
     [OneTimeSetUp]
     public void SetupMockServer()
     {
-      process = new System.Diagnostics.Process();
-      process.StartInfo.FileName = "node.exe";
-      process.StartInfo.Arguments = $"\"{Application.dataPath}/Tests/MockAIServer-JS/index.js\"";
-      process.Start();
+      if (TestUtility.IsWindows())
+      {
+        process = new System.Diagnostics.Process();
+        process.StartInfo.FileName = "node.exe";
+        Debug.Log(Application.dataPath);
+        process.StartInfo.Arguments = $"\"{Application.dataPath}/Tests/MockAIServer-JS/index.js\"";
+        process.Start();
+      }
+      else
+      {
+        Debug.LogWarning("!!WARNING!! OS is not Windows. Test server will need to be started manually. It is localed at:");
+        Debug.LogWarning($"\"{Application.dataPath}/Tests/MockAIServer-JS/index.js\"");
+      }
     }
 
     [OneTimeTearDown]
     public void StopMockServer()
     {
-      process.Kill();
+      if (TestUtility.IsWindows())
+      {
+        process.Kill();
+      }
     }
 
     [UnityTest]
@@ -39,7 +52,7 @@ namespace AIPlayTests
       var mapInfo = MapTextureHelper.MapInfoFromTexture2D(texture);
       var gameConfig = GameConfig.DefaultGameRule();
       var gameLogic = GameLogic.GameLogicForNewGame(gameConfig, mapInfo);
-      var controller = new WebServiceDecisionMaker("http://localhost:8686");
+      var controller = new WebServiceDecisionMaker(TEST_SERVER_URI);
       controller.Character = new Character(0, 0, Team.Red, Role.Harvester);
 
       int i = 0;
@@ -117,7 +130,7 @@ namespace AIPlayTests
     WebServiceDecisionMaker CreateTestController(string startPath = "/start", string turnPath = "/turn", string namePath = "/name")
     {
       var controller = new WebServiceDecisionMaker(
-        "http://localhost:8686",
+        TEST_SERVER_URI,
         startPath,
         turnPath,
         namePath
